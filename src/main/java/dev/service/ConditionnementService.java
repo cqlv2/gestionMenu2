@@ -33,7 +33,7 @@ public class ConditionnementService {
 		if (condOpt.isPresent()) {
 			return condOpt.get();
 		} else {
-			throw new sqlException("id produit non trouvée");
+			throw new sqlException("id du conditionnement non trouvée");
 		}
 	}
 

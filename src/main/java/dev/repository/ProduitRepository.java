@@ -14,10 +14,10 @@ public interface ProduitRepository extends JpaRepository<Produit, Integer>{
 
 	List<Produit> findByLibelleContaining(String value);
 	List<Produit> findBycategorie(Categorie valueOf);
-	List<Produit> findByPrixAfter(BigDecimal bigDecimal);
-	List<Produit> findByPrixBefore(BigDecimal bigDecimal);
-	List<Produit> findByPrixKgAfter(BigDecimal bigDecimal);
-	List<Produit> findByPrixKgBefore(BigDecimal bigDecimal);
+	List<Produit> findByPrixGreaterThanEqual(BigDecimal bigDecimal);
+	List<Produit> findByPrixLessThan(BigDecimal bigDecimal);
+	List<Produit> findByPrixKgGreaterThanEqual(BigDecimal bigDecimal);
+	List<Produit> findByPrixKgLessThan(BigDecimal bigDecimal);
 	List<Produit> findByMagasin(Magasin valueOf);
 
 }

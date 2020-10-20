@@ -65,16 +65,16 @@ public class ProduitService {
 			lp = prRepo.findBycategorie(Categorie.valueOf(value));
 			break;
 		case "prixSup":
-			lp = prRepo.findByPrixAfter(new BigDecimal(value));
+			lp = prRepo.findByPrixGreaterThanEqual(new BigDecimal(value));
 			break;
 		case "prixInf":
-			lp = prRepo.findByPrixBefore(new BigDecimal(value));
+			lp = prRepo.findByPrixLessThan(new BigDecimal(value));
 			break;
 		case "prixKgSup":
-			lp = prRepo.findByPrixKgAfter(new BigDecimal(value));
+			lp = prRepo.findByPrixKgGreaterThanEqual(new BigDecimal(value));
 			break;
 		case "prixKgInf":
-			lp = prRepo.findByPrixKgBefore(new BigDecimal(value));
+			lp = prRepo.findByPrixKgLessThan(new BigDecimal(value));
 			break;
 		case "magasin":
 			lp = prRepo.findByMagasin(Magasin.valueOf(value));

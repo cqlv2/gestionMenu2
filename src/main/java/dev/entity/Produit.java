@@ -10,8 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 
 import dev.enumeration.Categorie;
 import dev.enumeration.Magasin;
@@ -22,8 +21,7 @@ public class Produit {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	@ManyToMany
-	@JoinTable(name = "prod_conditionnement", joinColumns = @JoinColumn(name = "idUser"), inverseJoinColumns = @JoinColumn(name = "idConditionnement"))
+	@ManyToOne @JoinColumn(name="conditionnement_id")
 	private Conditionnement conditionnement;
 	@Column(length = 1000)
 	private String libelle;
