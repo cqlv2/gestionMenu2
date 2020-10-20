@@ -1,5 +1,7 @@
 package dev.service;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -7,7 +9,12 @@ import org.springframework.stereotype.Service;
 
 import dev.dto.ConditionnementDtoRequete;
 import dev.dto.ConditionnementDtoResponse;
+import dev.dto.ProduitDtoResponse;
 import dev.entity.Conditionnement;
+import dev.entity.Produit;
+import dev.enumeration.Categorie;
+import dev.enumeration.Emballage;
+import dev.enumeration.Magasin;
 import dev.exception.sqlException;
 import dev.interfaces.InterfaceService;
 import dev.repository.ConditionnementRepository;
@@ -24,20 +31,33 @@ public class ConditionnementService
 
 	@Override
 	public List<ConditionnementDtoResponse> getAll() {
-		// TODO Auto-generated method stub
-		return null;
+		List<ConditionnementDtoResponse> list = new ArrayList<ConditionnementDtoResponse>();
+		for (Conditionnement c : condRepo.findAll()) {
+			list.add(this.entityToDtoResponse(c));
+		}
+		return list;
 	}
 
 	@Override
 	public List<ConditionnementDtoResponse> getBy(String type, String value) {
-		// TODO Auto-generated method stub
-		return null;
+		List<ConditionnementDtoResponse> list = new ArrayList<ConditionnementDtoResponse>();
+		List<Conditionnement> lc = null;
+		switch (type) {
+		case "Emballage":
+			lc = condRepo.findByEmballage(Emballage.valueOf(value));
+			break;
+
+		}
+		for (Conditionnement c : lc) {
+			list.add(this.entityToDtoResponse(c));
+		}
+		return list;
 	}
 
 	@Override
 	public ConditionnementDtoResponse addEdit(ConditionnementDtoRequete dtoReq) throws sqlException {
-		// TODO Auto-generated method stub
-		return null;
+		Conditionnement c = this.DtoQueryToEntity(dtoReq);
+		return this.entityToDtoResponse(condRepo.save(c));
 	}
 
 	@Override
@@ -63,8 +83,14 @@ public class ConditionnementService
 
 	@Override
 	public Conditionnement DtoQueryToEntity(ConditionnementDtoRequete dtoRequete) throws sqlException {
-		// TODO Auto-generated method stub
-		return null;
+		Conditionnement c = new Conditionnement();
+		if (dtoRequete.getId() != null)
+			c.setId(dtoRequete.getId());
+		c.setEmballage(dtoRequete.getEmballage());
+		c.setNombrePiece(dtoRequete.getNombrePiece());
+		c.setPoidsPiece(dtoRequete.getPoidsPiece());
+		c.setUnite(dtoRequete.getUnite());
+		return c;
 	}
 
 }

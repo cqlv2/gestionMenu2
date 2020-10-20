@@ -15,6 +15,7 @@ public class ConditionnementDtoResponse {
 	private Emballage emballage;
 	private Integer nombrePiece;
 	private BigDecimal poidsPiece;
+	private Unite unite;
 
 	public Integer getId() {
 		return id;
@@ -46,5 +47,5 @@ public class ConditionnementDtoResponse {
 	public void setUnite(Unite unite) {
 		this.unite = unite;
 	}
-	private Unite unite;
+	
 }
