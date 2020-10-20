@@ -9,7 +9,7 @@ import javax.persistence.Enumerated;
 import dev.enumeration.Emballage;
 import dev.enumeration.Unite;
 
-public class DtoConditionementRep {
+public class ConditionnementDtoResponse {
 
 	private Integer id;
 	private Emballage emballage;

@@ -13,31 +13,22 @@ import dev.entity.Produit;
 import dev.enumeration.Categorie;
 import dev.enumeration.Magasin;
 import dev.exception.sqlException;
+import dev.interfaces.InterfaceService;
 import dev.repository.ProduitRepository;
 
 @Service
-public class ProduitService {
+
+public class ProduitService implements InterfaceService<Produit, ProduitDtoResponse, ProduitDtoRequete> {
 
 	private ProduitRepository prRepo;
 	private ConditionnementService condService;
 
-	/**
-	 * Construit un objet de type ProduitService
-	 * 
-	 * @param prRepo      un objet de type ProduitRepository
-	 * @param condService un objet de type ConditionnementService
-	 */
 	public ProduitService(ProduitRepository prRepo, ConditionnementService condService) {
 		this.prRepo = prRepo;
 		this.condService = condService;
 	}
 
-	/**
-	 * créé une liste d'objet produitDtoReponse depuis toutes les entité Produit
-	 * enregistrée en base de donnée
-	 * 
-	 * @return une liste d'objet produitDtoReponse
-	 */
+	@Override
 	public List<ProduitDtoResponse> getAll() {
 		List<ProduitDtoResponse> list = new ArrayList<ProduitDtoResponse>();
 		for (Produit p : prRepo.findAll()) {
@@ -46,14 +37,7 @@ public class ProduitService {
 		return list;
 	}
 
-	/**
-	 * créer une liste d'objet produitDtoReponse depuis les entités Produit
-	 * enregistrées en base de donnée répondant aux filtres
-	 * 
-	 * @param [String] type type de filtre
-	 * @param value    [String] valeur du filtre
-	 * @return une liste d'objet produitDtoReponse
-	 */
+	@Override
 	public List<ProduitDtoResponse> getBy(String type, String value) {
 		List<ProduitDtoResponse> list = new ArrayList<ProduitDtoResponse>();
 		List<Produit> lp = null;
@@ -86,27 +70,14 @@ public class ProduitService {
 		return list;
 	}
 
-	/**
-	 * Ajoute ou edite une entite de type Produit dans la base de donnée
-	 * 
-	 * @param prDtoReq un objet de type ProduitDtoRequete
-	 * @return un onjet de type ProduitDtoResponse
-	 * @throws sqlException exception levée en cas d'erreur sql
-	 */
-	public ProduitDtoResponse addEdit(ProduitDtoRequete prDtoReq) throws sqlException {
-		Produit p = this.DtoQueryToEntity(prDtoReq);
+	@Override
+	public ProduitDtoResponse addEdit(ProduitDtoRequete dtoReq) throws sqlException {
+		Produit p = this.DtoQueryToEntity(dtoReq);
 		return this.entityToDtoResponse(prRepo.save(p));
 	}
 
-	/**
-	 * recherche en base de données une entité de type produit correspondant à une
-	 * id
-	 * 
-	 * @param id de l'objet à chercher
-	 * @return une entité de type produit
-	 * @throws sqlException exception levée en cas d'erreur sql
-	 */
-	protected Produit getById(int id) throws sqlException {
+	@Override
+	public Produit getById(int id) throws sqlException {
 		Optional<Produit> prodOpt = prRepo.findById(id);
 		if (prodOpt.isPresent()) {
 			return prodOpt.get();
@@ -115,43 +86,31 @@ public class ProduitService {
 		}
 	}
 
-	/**
-	 * Transforme une entité de type Produit en objet DtoResponse
-	 * 
-	 * @param p entité produit a transformer en objet Dto
-	 * @return retourne un objet Dto de l'entité produit
-	 */
-	protected ProduitDtoResponse entityToDtoResponse(Produit p) {
+	@Override
+	public ProduitDtoResponse entityToDtoResponse(Produit entity) {
 		ProduitDtoResponse prodDtoRep = new ProduitDtoResponse();
-		prodDtoRep.setId(p.getId());
-		prodDtoRep.setCategorie(p.getCategorie());
-		prodDtoRep.setConditionnement(condService.entityToDto(p.getConditionnement()));
-		prodDtoRep.setLibelle(p.getLibelle());
-		prodDtoRep.setMagasin(p.getMagasin());
-		prodDtoRep.setPrix(p.getPrix());
-		prodDtoRep.setPrixKg(p.getPrixKg());
+		prodDtoRep.setId(entity.getId());
+		prodDtoRep.setCategorie(entity.getCategorie());
+		prodDtoRep.setConditionnement(condService.entityToDtoResponse(entity.getConditionnement()));
+		prodDtoRep.setLibelle(entity.getLibelle());
+		prodDtoRep.setMagasin(entity.getMagasin());
+		prodDtoRep.setPrix(entity.getPrix());
+		prodDtoRep.setPrixKg(entity.getPrixKg());
 		return prodDtoRep;
 	}
 
-	/**
-	 * transforme un objet de type Dto requête en entité Produit
-	 * 
-	 * @param prodDtoRequete objet de type Dto requête
-	 * @return une entité de type produit
-	 * @throws sqlException exception levée en cas d'erreur sql
-	 */
-	protected Produit DtoQueryToEntity(ProduitDtoRequete prodDtoRequete) throws sqlException {
+	@Override
+	public Produit DtoQueryToEntity(ProduitDtoRequete dtoRequete) throws sqlException {
 		Produit p = new Produit();
-		if (prodDtoRequete.getId() != null)
-			p.setId(prodDtoRequete.getId());
-		p.setCategorie(prodDtoRequete.getCategorie());
-		p.setConditionnement(condService.getbyId(prodDtoRequete.getConditionnementId()));
-		p.setLibelle(prodDtoRequete.getLibelle());
-		p.setMagasin(prodDtoRequete.getMagasin());
-		p.setPrix(prodDtoRequete.getPrix());
-		p.setPrixKg(prodDtoRequete.getPrixKg());
+		if (dtoRequete.getId() != null)
+			p.setId(dtoRequete.getId());
+		p.setCategorie(dtoRequete.getCategorie());
+		p.setConditionnement(condService.getById(dtoRequete.getConditionnementId()));
+		p.setLibelle(dtoRequete.getLibelle());
+		p.setMagasin(dtoRequete.getMagasin());
+		p.setPrix(dtoRequete.getPrix());
+		p.setPrixKg(dtoRequete.getPrixKg());
 
 		return p;
 	}
-
 }

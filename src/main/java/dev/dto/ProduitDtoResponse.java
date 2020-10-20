@@ -9,7 +9,7 @@ import dev.enumeration.Magasin;
 public class ProduitDtoResponse {
 
 	private Integer id;
-	private DtoConditionementRep conditionnement;
+	private ConditionnementDtoResponse conditionnement;
 	private String libelle;
 	private Categorie categorie;
 	private BigDecimal prix;
@@ -24,11 +24,11 @@ public class ProduitDtoResponse {
 		this.id = id;
 	}
 
-	public DtoConditionementRep getConditionnement() {
+	public ConditionnementDtoResponse getConditionnement() {
 		return conditionnement;
 	}
 
-	public void setConditionnement(DtoConditionementRep conditionnement) {
+	public void setConditionnement(ConditionnementDtoResponse conditionnement) {
 		this.conditionnement = conditionnement;
 	}
 
