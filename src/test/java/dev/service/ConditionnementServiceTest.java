@@ -71,7 +71,6 @@ class ConditionnementServiceTest {
 	@Test
 	void testAddEdit() throws sqlException, EnumException {
 		// test d'ajout
-
 		Assertions.assertThat(condServ.addEdit(cReq)).isInstanceOf(ConditionnementDtoResponse.class);
 		Assertions.assertThat(condServ.getAll()).hasSize(13);
 		Assertions.assertThat(condServ.getById(13).getUnite()).isEqualTo(Unite.GRAMME);
@@ -100,9 +99,7 @@ class ConditionnementServiceTest {
 
 	@Test
 	void testDtoQueryToEntity() {
-
 		Assertions.assertThat(condServ.DtoQueryToEntity(cReq)).isInstanceOf(Conditionnement.class);
-
 	}
 
 }

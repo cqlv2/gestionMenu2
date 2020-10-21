@@ -1,5 +1,6 @@
 package dev.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -20,7 +21,7 @@ public class Plat {
 	private Integer note;
 	@ManyToMany
 	@JoinTable(name = "fk_plat_produit", joinColumns = @JoinColumn(name = "plat_id"), inverseJoinColumns = @JoinColumn(name = "produitId"))
-	private List<Produit> produits;
+	private List<Produit> produits =new ArrayList<Produit>();
 
 	public Integer getId() {
 		return id;

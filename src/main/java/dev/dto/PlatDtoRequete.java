@@ -1,12 +1,13 @@
 package dev.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PlatDtoRequete {
 	private Integer id =null;
 	private String nom;
 	private Integer note=0;
-	private List<Integer> produitsId;
+	private List<Integer> produitsId=new ArrayList<Integer>();
 
 	public Integer getId() {
 		return id;

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import dev.dto.PlatDtoRequete;
 import dev.dto.platDtoResponse;
@@ -32,7 +33,7 @@ public class PlatService implements InterfaceService<Plat, platDtoResponse, Plat
 		for (Plat plat : platRepo.findAll()) {
 			list.add(this.entityToDtoResponse(plat));
 		}
-		
+
 		return list;
 	}
 
@@ -61,6 +62,7 @@ public class PlatService implements InterfaceService<Plat, platDtoResponse, Plat
 	}
 
 	@Override
+	@Transactional
 	public platDtoResponse addEdit(PlatDtoRequete dtoReq) throws sqlException {
 		return this.entityToDtoResponse(platRepo.save(this.DtoQueryToEntity(dtoReq)));
 	}
@@ -81,12 +83,12 @@ public class PlatService implements InterfaceService<Plat, platDtoResponse, Plat
 		platDtoRep.setId(entity.getId());
 		platDtoRep.setNom(entity.getNom());
 		platDtoRep.setNote(entity.getNote());
-		
+
 		for (Produit produit : entity.getProduits()) {
-			
+
 			platDtoRep.getProduitsDtoResponse().add(prServ.entityToDtoResponse(produit));
-		}	
-		
+		}
+
 		return platDtoRep;
 	}
 
@@ -101,6 +103,7 @@ public class PlatService implements InterfaceService<Plat, platDtoResponse, Plat
 		for (Integer idProduit : dtoRequete.getProduitsId()) {
 			plat.getProduits().add(prServ.getById(idProduit));
 		}
+System.err.println("test -> "+plat);
 		return plat;
 	}
 
