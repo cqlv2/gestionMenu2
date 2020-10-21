@@ -90,6 +90,7 @@ public class ProduitService implements InterfaceService<Produit, ProduitDtoRespo
 
 	@Override
 	public ProduitDtoResponse entityToDtoResponse(Produit entity) {
+
 		ProduitDtoResponse prodDtoRep = new ProduitDtoResponse();
 		prodDtoRep.setId(entity.getId());
 		prodDtoRep.setCategorie(entity.getCategorie());
@@ -98,6 +99,9 @@ public class ProduitService implements InterfaceService<Produit, ProduitDtoRespo
 		prodDtoRep.setMagasin(entity.getMagasin());
 		prodDtoRep.setPrix(entity.getPrix());
 		prodDtoRep.setPrixKg(entity.getPrixKg());
+		prodDtoRep.setQuantiteParPersonne(entity.getQuantiteParPersonne());
+		prodDtoRep.setUnite(entity.getUnite());
+		
 		return prodDtoRep;
 	}
 

@@ -28,3 +28,27 @@ INSERT INTO produit
 ('VIANDE', 			'cordon bleu', 		'LIDL', 	'1.10', '1.10', 	'10', 				100, 					'GRAMME'),
 ('FECULENT', 		'purée en poudre', 	'LIDL', 	'1.10', '1.10', 	'11', 				150, 					'GRAMME'),
 ('PRODUIT_LAITIER', 'lait', 			'LIDL', 	'1.10', '1.10', 	'12', 				25, 					'CENTILITRE');
+
+INSERT INTO plat 
+(nom, 													note) VALUES 
+('Spaguetti bolognaise boulette', 						'2'), 
+('Penne a la carbonara', 								'3'),
+('Poisson panne riz sauce citron',						'1'),
+('cordon bleu purée', 	 								'3');
+
+INSERT INTO fk_plat_produit 
+(plat_id, 	produit_id) VALUES 
+('1', 		'1'), 
+('1', 		'2'), 
+('1', 		'3'), 
+('2', 		'4'), 
+('2', 		'5'), 
+('2', 		'6'), 
+('2', 		'7'),
+('3', 		'8'), 
+('3', 		'9'), 
+('3', 		'10'), 
+('3', 		'5'), 
+('4', 		'11'), 
+('4', 		'12'), 
+('4', 		'13');
