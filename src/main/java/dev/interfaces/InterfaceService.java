@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import dev.dto.ProduitDtoRequete;
 import dev.dto.ProduitDtoResponse;
 import dev.entity.Produit;
+import dev.exception.EnumException;
 import dev.exception.sqlException;
 
 /**
@@ -39,8 +40,9 @@ public interface InterfaceService<T, TDtoRep, TDtoRequete> {
 	 * @param type  [String] type type de filtre
 	 * @param value [String] valeur du filtre
 	 * @return une liste d'objet <TDtoRep>
+	 * @throws EnumException 
 	 */
-	public List<TDtoRep> getBy(String type, String value);
+	public List<TDtoRep> getBy(String type, String value) throws EnumException;
 
 	/**
 	 * Ajoute ou edite une entite de type <T> dans la base de donnée
@@ -48,8 +50,9 @@ public interface InterfaceService<T, TDtoRep, TDtoRequete> {
 	 * @param dtoReq un objet de type <TDtoRequete>
 	 * @return un objet de type <TDtoRep>
 	 * @throws sqlException exception levée en cas d'erreur sql
+	 * @throws EnumException 
 	 */
-	public TDtoRep addEdit(TDtoRequete dtoReq) throws sqlException;
+	public TDtoRep addEdit(TDtoRequete dtoReq) throws sqlException, EnumException;
 
 	/**
 	 * recherche en base de données une entité de type <T> correspondant à une id

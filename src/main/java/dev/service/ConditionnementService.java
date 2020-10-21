@@ -15,6 +15,7 @@ import dev.entity.Produit;
 import dev.enumeration.Categorie;
 import dev.enumeration.Emballage;
 import dev.enumeration.Magasin;
+import dev.exception.EnumException;
 import dev.exception.sqlException;
 import dev.interfaces.InterfaceService;
 import dev.repository.ConditionnementRepository;
@@ -39,14 +40,15 @@ public class ConditionnementService
 	}
 
 	@Override
-	public List<ConditionnementDtoResponse> getBy(String type, String value) {
+	public List<ConditionnementDtoResponse> getBy(String type, String value) throws EnumException {
 		List<ConditionnementDtoResponse> list = new ArrayList<ConditionnementDtoResponse>();
 		List<Conditionnement> lc = null;
 		switch (type) {
-		case "Emballage":
-			lc = condRepo.findByEmballage(Emballage.valueOf(value));
+		case "emballage":
+			if (this.checkEmballageEnum(value)) {
+				lc = condRepo.findByEmballage(Emballage.valueOf(value));
+			}
 			break;
-
 		}
 		for (Conditionnement c : lc) {
 			list.add(this.entityToDtoResponse(c));
@@ -55,8 +57,11 @@ public class ConditionnementService
 	}
 
 	@Override
-	public ConditionnementDtoResponse addEdit(ConditionnementDtoRequete dtoReq) throws sqlException {
-		Conditionnement c = this.DtoQueryToEntity(dtoReq);
+	public ConditionnementDtoResponse addEdit(ConditionnementDtoRequete dtoReq) throws sqlException, EnumException {
+		Conditionnement c = null;
+		if (this.checkEmballageEnum(dtoReq.getEmballage().name())) {
+			c = this.DtoQueryToEntity(dtoReq);
+		}
 		return this.entityToDtoResponse(condRepo.save(c));
 	}
 
@@ -82,7 +87,7 @@ public class ConditionnementService
 	}
 
 	@Override
-	public Conditionnement DtoQueryToEntity(ConditionnementDtoRequete dtoRequete) throws sqlException {
+	public Conditionnement DtoQueryToEntity(ConditionnementDtoRequete dtoRequete){
 		Conditionnement c = new Conditionnement();
 		if (dtoRequete.getId() != null)
 			c.setId(dtoRequete.getId());
@@ -91,6 +96,15 @@ public class ConditionnementService
 		c.setPoidsPiece(dtoRequete.getPoidsPiece());
 		c.setUnite(dtoRequete.getUnite());
 		return c;
+	}
+
+	private boolean checkEmballageEnum(String value) throws EnumException {
+		for (Emballage e : Emballage.values()) {
+			if (e.name().equals(value)) {
+				return true;
+			}
+		}
+		throw new EnumException("enumeration Emballage non trouvée");
 	}
 
 }

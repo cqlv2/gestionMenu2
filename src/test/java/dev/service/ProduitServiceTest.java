@@ -105,7 +105,10 @@ class ProduitServiceTest {
 		Assertions.assertThatThrownBy(() -> prServ.addEdit(pReqEchec)).hasMessage("id du conditionnement non trouvée");
 		Assertions.assertThat(prServ.getAll()).hasSize(9);
 		Assertions.assertThat(prServ.getById(2).getLibelle()).isEqualTo("huile de tournesol");
+		
 
+		
+		
 	}
 
 	@Test
