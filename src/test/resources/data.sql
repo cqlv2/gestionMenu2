@@ -7,10 +7,6 @@ INSERT INTO conditionnement (emballage,nombre_piece,poids_piece,unite) VALUES
 ('BOUTEILLE', 1, 1, 'LITRE'),
 ('CONSERVE', 1, 200, 'GRAMME');
 
-
-
-
-
 INSERT INTO produit (categorie,libelle,magasin,prix,prix_kg,conditionnement_id) VALUES 
 ('LEGUME',			'boite haricot marque repere', 	'INTERMARCHE', 	'1.26', '4.52', '7'),
 ('MATIERE_GRASSE', 	'huile de tournesol', 			'CARREFOUR', 	'0.82', '0.82', '6'),
@@ -20,3 +16,10 @@ INSERT INTO produit (categorie,libelle,magasin,prix,prix_kg,conditionnement_id) 
 ('POISSON',			'thon a la thomate', 			'LIDL',		 	'1.25', '1.25', '7'),
 ('PRODUIT_LAITIER',	'creme liquide', 				'CARREFOUR', 	'0.99', '0.99', '4'),
 ('LEGUME', 			'boite azeaze marque repere', 	'INTERMARCHE',	'1', 	'1', 	'1');
+
+INSERT INTO quantite_produit (quantite, unite, produit_id) VALUES 
+('100', 'GRAMME', '1'),
+('20', 'CENTILITRE', '2'),
+('100', 'GRAMME', '3'),
+('80', 'GRAMME', '4'),
+('100', 'GRAMME', '5');
