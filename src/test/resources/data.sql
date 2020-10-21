@@ -1,25 +1,30 @@
-INSERT INTO conditionnement (emballage,nombre_piece,poids_piece,unite) VALUES 
-('PAQUET', 10, 100, 'GRAMME'),
-('FILLET', 1, 2.5, 'KILOGRAME'),
-('PIECE', 1, 1, 'KILOGRAME'),
-('BRIQUE', 4, 250, 'CENTILITRE'),
-('PAQUET', 1, 200, 'GRAMME'),
-('BOUTEILLE', 1, 1, 'LITRE'),
-('CONSERVE', 1, 200, 'GRAMME');
+INSERT INTO conditionnement 
+(emballage, 	nombre_piece, 	poids_piece, unite) VALUES 
+('PAQUET', 		'1', 			'1', 		'KILOGRAMME'), 
+('POT', 		'1', 			'250', 		'GRAMME'), 
+('BOITE', 		'1', 			'1', 		'KILOGRAMME'), 
+('POT', 		'1', 			'250', 		'CENTILITRE'), 
+('FILET', 		'10', 			'50', 		'GRAMME'), 
+('BARQUETTE', 	'2', 			'200', 		'GRAMME'), 
+('PAQUET', 		'15', 			'80', 		'GRAMME'), 
+('PAQUET', 		'5', 			'100', 		'GRAMME'), 
+('PIECE', 		'1', 			'50', 		'GRAMME'), 
+('BARQUETTE', 	'10', 			'100', 		'GRAMME'), 
+('PAQUET', 		'1', 			'1', 		'KILOGRAMME'), 
+('PAQUET', 		'6', 			'1', 		'LITRE');
 
-INSERT INTO produit (categorie,libelle,magasin,prix,prix_kg,conditionnement_id) VALUES 
-('LEGUME',			'boite haricot marque repere', 	'INTERMARCHE', 	'1.26', '4.52', '7'),
-('MATIERE_GRASSE', 	'huile de tournesol', 			'CARREFOUR', 	'0.82', '0.82', '6'),
-('VIANDE', 			'steak hache charal x10', 		'CARREFOUR', 	'0.82', '0.82', '1'),
-('FECULENT', 		'pomme de terre 2.5kg', 		'SYSTEM_U', 	'3.20', '1.52', '2'),
-('VIANDE', 			'roti de porc', 				'LIDL',			'4.86', '4.86', '3'),
-('POISSON',			'thon a la thomate', 			'LIDL',		 	'1.25', '1.25', '7'),
-('PRODUIT_LAITIER',	'creme liquide', 				'CARREFOUR', 	'0.99', '0.99', '4'),
-('LEGUME', 			'boite azeaze marque repere', 	'INTERMARCHE',	'1', 	'1', 	'1');
-
-INSERT INTO quantite_produit (quantite, unite, produit_id) VALUES 
-('100', 'GRAMME', '1'),
-('20', 'CENTILITRE', '2'),
-('100', 'GRAMME', '3'),
-('80', 'GRAMME', '4'),
-('100', 'GRAMME', '5');
+INSERT INTO produit 
+(categorie, 		libelle, 			magasin, 	prix, 	prix_kg, 	conditionnement_id,	quantite_par_personne, 	unite) VALUES 
+('FECULENT', 		'Spaguetti', 		'LIDL', 	'0.86', '0.86',		'1', 				80, 					'GRAMME'), 
+('PLAT_PREPARE',	'sauce boloniaise', 'LIDL', 	'1.20',	'4.80',		'2', 				50, 					'GRAMME'), 
+('VIANDE', 			'boulette', 		'LIDL', 	'5.80',	'5.80',		'3', 				100, 					'GRAMME'),
+('FECULENT', 		'penne', 			'LIDL', 	'0.84', '0.84', 	'1', 				80, 					'GRAMME'),
+('MATIERE_GRASSE', 	'creme fraiche', 	'LIDL', 	'1.10', '4.40', 	'4', 				30, 					'CENTILITRE'),
+('LEGUME', 			'oignon', 			'LIDL', 	'1.10', '2.20', 	'5', 				30, 					'GRAMME'),
+('VIANDE', 			'lardon', 			'LIDL', 	'1.12', '2.80', 	'6', 				80, 					'GRAMME'),
+('POISSON', 		'poisson panne', 	'LIDL', 	'1.10', '1.10', 	'7', 				150, 					'GRAMME'),
+('FECULENT', 		'riz', 				'LIDL', 	'1.10', '1.10', 	'8', 				80, 					'GRAMME'),
+('FRUIT', 			'citron', 			'LIDL', 	'1.10', '1.10', 	'9', 				10, 					'GRAMME'),
+('VIANDE', 			'cordon bleu', 		'LIDL', 	'1.10', '1.10', 	'10', 				100, 					'GRAMME'),
+('FECULENT', 		'purée en poudre', 	'LIDL', 	'1.10', '1.10', 	'11', 				150, 					'GRAMME'),
+('PRODUIT_LAITIER', 'lait', 			'LIDL', 	'1.10', '1.10', 	'12', 				25, 					'CENTILITRE');

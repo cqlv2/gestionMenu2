@@ -1,5 +1,5 @@
 package dev.enumeration;
 
 public enum Unite {
-GRAMME, KILOGRAME, CENTILITRE, LITRE
+GRAMME, KILOGRAMME, CENTILITRE, LITRE
 }

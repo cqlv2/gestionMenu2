@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 import java.math.BigDecimal;
 
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -33,9 +34,19 @@ import dev.exception.sqlException;
 class ConditionnementServiceTest {
 
 	private ConditionnementService condServ;
+	private ConditionnementDtoRequete cReq;
 
 	public ConditionnementServiceTest(ConditionnementService condServ) {
 		this.condServ = condServ;
+	}
+
+	@BeforeEach
+	public void setDtoRequete() {
+		cReq = new ConditionnementDtoRequete();
+		cReq.setEmballage(Emballage.BOUTEILLE);
+		cReq.setNombrePiece(1);
+		cReq.setPoidsPiece(1);
+		cReq.setUnite(Unite.GRAMME);
 	}
 
 	@Test
@@ -46,45 +57,38 @@ class ConditionnementServiceTest {
 	@Test
 	void testGetAll() {
 		Assertions.assertThat(condServ.getAll()).asList();
-		Assertions.assertThat(condServ.getAll()).hasSize(7);
+		Assertions.assertThat(condServ.getAll()).hasSize(12);
 		Assertions.assertThat(condServ.getAll().get(0).getEmballage()).isEqualTo(Emballage.PAQUET);
-		Assertions.assertThat(condServ.getAll().get(5).getNombrePiece()).isEqualTo(1);
 	}
 
 	@Test
 	void testGetBy() throws EnumException {
-		Assertions.assertThat(condServ.getBy("emballage", "BOUTEILLE")).asList();
-		Assertions.assertThat(condServ.getBy("emballage", "BOUTEILLE")).hasSize(1);
-		Assertions.assertThatThrownBy(() -> condServ.getBy("emballage", "aze")).isInstanceOf(EnumException.class);
-		Assertions.assertThatThrownBy(() -> condServ.getBy("emballage", "aze"))
-				.hasMessage("enumeration Emballage non trouvée");
+		Assertions.assertThat(condServ.getBy("emballage", "PAQUET")).asList();
+		Assertions.assertThat(condServ.getBy("emballage", "PAQUET")).hasSize(5);
+
 	}
 
 	@Test
 	void testAddEdit() throws sqlException, EnumException {
 		// test d'ajout
-		ConditionnementDtoRequete cReqAdd = new ConditionnementDtoRequete();
-		cReqAdd.setEmballage(Emballage.BOUTEILLE);
-		cReqAdd.setNombrePiece(1);
-		cReqAdd.setPoidsPiece(1);
-		cReqAdd.setUnite(Unite.KILOGRAME);
-		Assertions.assertThat(condServ.addEdit(cReqAdd)).isInstanceOf(ConditionnementDtoResponse.class);
-		Assertions.assertThat(condServ.getAll()).hasSize(8);
-		Assertions.assertThat(condServ.getById(8).getUnite()).isEqualTo(Unite.KILOGRAME);
+
+		Assertions.assertThat(condServ.addEdit(cReq)).isInstanceOf(ConditionnementDtoResponse.class);
+		Assertions.assertThat(condServ.getAll()).hasSize(13);
+		Assertions.assertThat(condServ.getById(13).getUnite()).isEqualTo(Unite.GRAMME);
 		// test edition
-		cReqAdd.setId(8);
-		cReqAdd.setUnite(Unite.LITRE);
-		Assertions.assertThat(condServ.addEdit(cReqAdd)).isInstanceOf(ConditionnementDtoResponse.class);
-		Assertions.assertThat(condServ.getAll()).hasSize(8);
-		Assertions.assertThat(condServ.getById(8).getUnite()).isEqualTo(Unite.LITRE);
+		cReq.setId(13);
+		cReq.setUnite(Unite.LITRE);
+		Assertions.assertThat(condServ.addEdit(cReq)).isInstanceOf(ConditionnementDtoResponse.class);
+		Assertions.assertThat(condServ.getAll()).hasSize(13);
+		Assertions.assertThat(condServ.getById(13).getUnite()).isEqualTo(Unite.LITRE);
 	}
 
 	@Test
 	void testGetById() throws sqlException {
 		Assertions.assertThat(condServ.getById(1)).isInstanceOf(Conditionnement.class);
 		Assertions.assertThat(condServ.getById(1).getEmballage()).isEqualTo(Emballage.PAQUET);
-		Assertions.assertThatThrownBy(() -> condServ.getById(10)).isInstanceOf(sqlException.class);
-		Assertions.assertThatThrownBy(() -> condServ.getById(10)).hasMessage("id du conditionnement non trouvée");
+		Assertions.assertThatThrownBy(() -> condServ.getById(100)).isInstanceOf(sqlException.class);
+		Assertions.assertThatThrownBy(() -> condServ.getById(100)).hasMessage("id du conditionnement non trouvée");
 	}
 
 	@Test
@@ -96,12 +100,9 @@ class ConditionnementServiceTest {
 
 	@Test
 	void testDtoQueryToEntity() {
-		ConditionnementDtoRequete cDtoReq = new ConditionnementDtoRequete();
-		cDtoReq.setEmballage(Emballage.BOUTEILLE);
-		cDtoReq.setNombrePiece(1);
-		cDtoReq.setPoidsPiece(1);
-		cDtoReq.setUnite(Unite.LITRE);
-		Assertions.assertThat(condServ.DtoQueryToEntity(cDtoReq)).isInstanceOf(Conditionnement.class);
+
+		Assertions.assertThat(condServ.DtoQueryToEntity(cReq)).isInstanceOf(Conditionnement.class);
+
 	}
 
 }

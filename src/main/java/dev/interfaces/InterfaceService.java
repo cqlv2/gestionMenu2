@@ -8,6 +8,7 @@ import dev.dto.ProduitDtoRequete;
 import dev.dto.ProduitDtoResponse;
 import dev.entity.Produit;
 import dev.exception.EnumException;
+import dev.exception.UniteException;
 import dev.exception.sqlException;
 
 /**
@@ -51,8 +52,9 @@ public interface InterfaceService<T, TDtoRep, TDtoRequete> {
 	 * @return un objet de type <TDtoRep>
 	 * @throws sqlException exception levée en cas d'erreur sql
 	 * @throws EnumException 
+	 * @throws UniteException 
 	 */
-	public TDtoRep addEdit(TDtoRequete dtoReq) throws sqlException, EnumException;
+	public TDtoRep addEdit(TDtoRequete dtoReq) throws sqlException, EnumException, UniteException;
 
 	/**
 	 * recherche en base de données une entité de type <T> correspondant à une id
@@ -77,7 +79,8 @@ public interface InterfaceService<T, TDtoRep, TDtoRequete> {
 	 * @param dtoRequete objet de type <TDtoRequete>
 	 * @return une entité de type <T>
 	 * @throws sqlException exception levée en cas d'erreur sql
+	 * @throws UniteException exception levée en cas d'erreur d'unite
 	 */
-	public T DtoQueryToEntity(TDtoRequete dtoRequete) throws sqlException;
+	public T DtoQueryToEntity(TDtoRequete dtoRequete) throws sqlException, UniteException;
 
 }

@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import dev.entity.Conditionnement;
 import dev.enumeration.Categorie;
 import dev.enumeration.Magasin;
+import dev.enumeration.Unite;
 
 public class ProduitDtoRequete {
 	private Integer id = null;
@@ -14,6 +15,8 @@ public class ProduitDtoRequete {
 	private BigDecimal prix;
 	private BigDecimal prixKg;
 	private Magasin magasin;
+	private Integer quantiteParPersonne;
+	private Unite unite;
 
 	public Integer getId() {
 		return id;
@@ -69,6 +72,22 @@ public class ProduitDtoRequete {
 
 	public void setMagasin(Magasin magasin) {
 		this.magasin = magasin;
+	}
+
+	public Integer getQuantiteParPersonne() {
+		return quantiteParPersonne;
+	}
+
+	public void setQuantiteParPersonne(Integer quantiteParPersonne) {
+		this.quantiteParPersonne = quantiteParPersonne;
+	}
+
+	public Unite getUnite() {
+		return unite;
+	}
+
+	public void setUnite(Unite unite) {
+		this.unite = unite;
 	}
 
 }

@@ -1,10 +1,9 @@
 package dev.service;
 
-import static org.junit.jupiter.api.Assertions.fail;
-
 import java.math.BigDecimal;
 
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,6 +17,8 @@ import dev.dto.ProduitDtoResponse;
 import dev.entity.Produit;
 import dev.enumeration.Categorie;
 import dev.enumeration.Magasin;
+import dev.enumeration.Unite;
+import dev.exception.UniteException;
 import dev.exception.sqlException;
 
 @ExtendWith(SpringExtension.class)
@@ -28,9 +29,23 @@ import dev.exception.sqlException;
 class ProduitServiceTest {
 
 	private ProduitService prServ;
+	private ProduitDtoRequete pReq;
 
 	public ProduitServiceTest(ProduitService prServ) {
 		this.prServ = prServ;
+	}
+
+	@BeforeEach
+	public void setDtoRequete() {
+		pReq = new ProduitDtoRequete();
+		pReq.setCategorie(Categorie.FECULENT);
+		pReq.setConditionnementId(1);
+		pReq.setLibelle("test1");
+		pReq.setPrix(new BigDecimal("10.5"));
+		pReq.setMagasin(Magasin.CARREFOUR);
+		pReq.setPrixKg(new BigDecimal("10.5"));
+		pReq.setQuantiteParPersonne(80);
+		pReq.setUnite(Unite.KILOGRAMME);
 	}
 
 	@Test
@@ -41,106 +56,69 @@ class ProduitServiceTest {
 	@Test
 	void testGetAll() {
 		Assertions.assertThat(prServ.getAll()).asList();
-		Assertions.assertThat(prServ.getAll()).hasSize(8);
-		Assertions.assertThat(prServ.getAll().get(0).getLibelle()).isEqualTo("boite haricot marque repere");
-		Assertions.assertThat(prServ.getAll().get(5).getMagasin()).isEqualTo(Magasin.LIDL);
+		Assertions.assertThat(prServ.getAll()).hasSize(13);
 	}
 
 	@Test
 	void testGetBy() {
-		Assertions.assertThat(prServ.getBy("libelle", "ha")).asList();
-		Assertions.assertThat(prServ.getBy("libelle", "ha")).hasSize(2);
-		Assertions.assertThat(prServ.getBy("categorie", "VIANDE")).asList();
-		Assertions.assertThat(prServ.getBy("categorie", "VIANDE")).hasSize(2);
-		Assertions.assertThat(prServ.getBy("prixSup", "1")).asList();
-		Assertions.assertThat(prServ.getBy("prixSup", "1")).hasSize(5);
-		Assertions.assertThat(prServ.getBy("prixInf", "1")).asList();
-		Assertions.assertThat(prServ.getBy("prixInf", "1")).hasSize(3);
-		Assertions.assertThat(prServ.getBy("prixKgSup", "1")).asList();
-		Assertions.assertThat(prServ.getBy("prixKgSup", "1")).hasSize(5);
-		Assertions.assertThat(prServ.getBy("prixKgInf", "1")).asList();
-		Assertions.assertThat(prServ.getBy("prixKgInf","1")).hasSize(3);
-		Assertions.assertThat(prServ.getBy("magasin","CARREFOUR")).asList();
-		Assertions.assertThat(prServ.getBy("magasin","CARREFOUR")).hasSize(3);
+		Assertions.assertThat(prServ.getBy("libelle", "rdon")).asList();
+		Assertions.assertThat(prServ.getBy("libelle", "rdon")).hasSize(2);
 	}
 
 	@Test
-	void testAddEdit() throws sqlException {
+	void testAddEdit() throws sqlException, UniteException {
 		// test d'ajout
-		ProduitDtoRequete pReqAdd = new ProduitDtoRequete();
-		pReqAdd.setCategorie(Categorie.FECULENT);
-		pReqAdd.setConditionnementId(1);
-		pReqAdd.setLibelle("test1");
-		pReqAdd.setPrix(new BigDecimal("10.5"));
-		pReqAdd.setMagasin(Magasin.CARREFOUR);
-		pReqAdd.setPrixKg(new BigDecimal("10.5"));
-		Assertions.assertThat(prServ.addEdit(pReqAdd)).isInstanceOf(ProduitDtoResponse.class);
-		Assertions.assertThat(prServ.getAll()).hasSize(9);
-		Assertions.assertThat(prServ.getById(9).getLibelle()).isEqualTo("test1");
-
+		Assertions.assertThat(prServ.addEdit(pReq)).isInstanceOf(ProduitDtoResponse.class);
+		Assertions.assertThat(prServ.getAll()).hasSize(14);
+		Assertions.assertThat(prServ.getById(14).getLibelle()).isEqualTo("test1");
 		// test update
-		ProduitDtoRequete pReqEdit = new ProduitDtoRequete();
-		pReqEdit.setId(1);
-		pReqEdit.setCategorie(Categorie.LEGUME);
-		pReqEdit.setConditionnementId(7);
-		pReqEdit.setLibelle("test2");
-		pReqEdit.setPrix(new BigDecimal("10.5"));
-		pReqEdit.setMagasin(Magasin.CARREFOUR);
-		pReqEdit.setPrixKg(new BigDecimal("10.5"));
-		Assertions.assertThat(prServ.addEdit(pReqEdit)).isInstanceOf(ProduitDtoResponse.class);
-		Assertions.assertThat(prServ.getAll()).hasSize(9);
-		Assertions.assertThat(prServ.getById(1).getLibelle()).isEqualTo("test2");
-		Assertions.assertThat(prServ.getById(1).getMagasin()).isEqualTo(Magasin.CARREFOUR);
-
-		// test echec
-		ProduitDtoRequete pReqEchec = new ProduitDtoRequete();
-		pReqEchec.setId(2);
-		pReqEchec.setCategorie(Categorie.LEGUME);
-		pReqEchec.setConditionnementId(20);
-		pReqEchec.setLibelle("test3");
-		pReqEchec.setPrix(new BigDecimal("10.5"));
-		pReqEchec.setMagasin(Magasin.CARREFOUR);
-		pReqEchec.setPrixKg(new BigDecimal("10.5"));
-		Assertions.assertThatThrownBy(() -> prServ.addEdit(pReqEchec)).isInstanceOf(sqlException.class);
-		Assertions.assertThatThrownBy(() -> prServ.addEdit(pReqEchec)).hasMessage("id du conditionnement non trouvée");
-		Assertions.assertThat(prServ.getAll()).hasSize(9);
-		Assertions.assertThat(prServ.getById(2).getLibelle()).isEqualTo("huile de tournesol");
-		
-
-		
-		
+		pReq.setId(14);
+		pReq.setLibelle("test2");
+		Assertions.assertThat(prServ.addEdit(pReq)).isInstanceOf(ProduitDtoResponse.class);
+		Assertions.assertThat(prServ.getAll()).hasSize(14);
+		Assertions.assertThat(prServ.getById(14).getLibelle()).isEqualTo("test2");
 	}
 
 	@Test
 	void testGetById() throws sqlException {
 		Assertions.assertThat(prServ.getById(1)).isInstanceOf(Produit.class);
-		Assertions.assertThat(prServ.getById(2).getLibelle()).isEqualTo("huile de tournesol");
-		Assertions.assertThat(prServ.getById(2).getCategorie()).isEqualTo(Categorie.MATIERE_GRASSE);
-		Assertions.assertThatThrownBy(() -> prServ.getById(10)).isInstanceOf(sqlException.class);
-		Assertions.assertThatThrownBy(() -> prServ.getById(10)).hasMessage("id produit non trouvée");
+		Assertions.assertThat(prServ.getById(2).getLibelle()).isEqualTo("sauce boloniaise");
+		Assertions.assertThat(prServ.getById(2).getCategorie()).isEqualTo(Categorie.PLAT_PREPARE);
+		Assertions.assertThatThrownBy(() -> prServ.getById(100)).isInstanceOf(sqlException.class);
+		Assertions.assertThatThrownBy(() -> prServ.getById(100)).hasMessage("id produit non trouvée");
 	}
 
 	@Test
 	void testEntityToDtoResponse() throws sqlException {
-		Produit p =prServ.getById(1);
+		Produit p = prServ.getById(1);
 		Assertions.assertThat(prServ.entityToDtoResponse(p)).isInstanceOf(ProduitDtoResponse.class);
-		Assertions.assertThat(prServ.entityToDtoResponse(p).getLibelle()).isEqualTo("boite haricot marque repere");
+		Assertions.assertThat(prServ.entityToDtoResponse(p).getLibelle()).isEqualTo("Spaguetti");
 	}
 
 	@Test
-	void testDtoQueryToEntity() throws sqlException {
-		ProduitDtoRequete pReq = new ProduitDtoRequete();
-		pReq.setCategorie(Categorie.FECULENT);
-		pReq.setConditionnementId(1);
-		pReq.setLibelle("test");
-		pReq.setPrix(new BigDecimal("10.5"));
-		pReq.setMagasin(Magasin.CARREFOUR);
-		pReq.setPrixKg(new BigDecimal("10.5"));
+	void testDtoQueryToEntity() throws sqlException, UniteException {
+
 		Assertions.assertThat(prServ.DtoQueryToEntity(pReq)).isInstanceOf(Produit.class);
-		pReq.setConditionnementId(20);
-		Assertions.assertThatThrownBy(() -> prServ.DtoQueryToEntity(pReq)).isInstanceOf(sqlException.class);
-		Assertions.assertThatThrownBy(() -> prServ.DtoQueryToEntity(pReq)).hasMessage("id du conditionnement non trouvée");
-		
+
+		// test echec sql
+		pReq.setConditionnementId(100);
+		Assertions.assertThatThrownBy(() -> prServ.addEdit(pReq)).isInstanceOf(sqlException.class);
+		Assertions.assertThatThrownBy(() -> prServ.addEdit(pReq)).hasMessage("id du conditionnement non trouvée");
+
+		// test echec unite
+		pReq.setConditionnementId(1);
+		pReq.setUnite(Unite.CENTILITRE);
+		Assertions.assertThatThrownBy(() -> prServ.addEdit(pReq)).isInstanceOf(UniteException.class);
+		Assertions.assertThatThrownBy(() -> prServ.addEdit(pReq))
+				.hasMessage("l'unité ne correspond pas au conditionement");
+
+	}
+	
+	@Test
+	void testCheckUnite() {
+		Assertions.assertThat(prServ.checkUnite(Unite.CENTILITRE, Unite.CENTILITRE)).isTrue();
+		Assertions.assertThat(prServ.checkUnite(Unite.LITRE, Unite.CENTILITRE)).isTrue();
+		Assertions.assertThat(prServ.checkUnite(Unite.CENTILITRE, Unite.GRAMME)).isFalse();
 	}
 
 }

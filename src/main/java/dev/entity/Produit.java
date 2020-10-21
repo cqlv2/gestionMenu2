@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 
 import dev.enumeration.Categorie;
 import dev.enumeration.Magasin;
+import dev.enumeration.Unite;
 
 @Entity
 public class Produit {
@@ -21,7 +22,8 @@ public class Produit {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	@ManyToOne @JoinColumn(name="conditionnement_id")
+	@ManyToOne
+	@JoinColumn(name = "conditionnement_id")
 	private Conditionnement conditionnement;
 	@Column(length = 1000)
 	private String libelle;
@@ -33,6 +35,9 @@ public class Produit {
 	private BigDecimal prixKg;
 	@Enumerated(EnumType.STRING)
 	private Magasin magasin;
+	private Integer quantiteParPersonne;
+	@Enumerated(EnumType.STRING)
+	private Unite unite;
 
 	public Integer getId() {
 		return id;
@@ -88,6 +93,22 @@ public class Produit {
 
 	public void setMagasin(Magasin magasin) {
 		this.magasin = magasin;
+	}
+
+	public Integer getQuantiteParPersonne() {
+		return quantiteParPersonne;
+	}
+
+	public void setQuantiteParPersonne(Integer quantiteParPersonne) {
+		this.quantiteParPersonne = quantiteParPersonne;
+	}
+
+	public Unite getUnite() {
+		return unite;
+	}
+
+	public void setUnite(Unite unite) {
+		this.unite = unite;
 	}
 
 }

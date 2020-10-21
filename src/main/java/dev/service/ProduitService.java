@@ -12,6 +12,8 @@ import dev.dto.ProduitDtoResponse;
 import dev.entity.Produit;
 import dev.enumeration.Categorie;
 import dev.enumeration.Magasin;
+import dev.enumeration.Unite;
+import dev.exception.UniteException;
 import dev.exception.sqlException;
 import dev.interfaces.InterfaceService;
 import dev.repository.ProduitRepository;
@@ -71,7 +73,7 @@ public class ProduitService implements InterfaceService<Produit, ProduitDtoRespo
 	}
 
 	@Override
-	public ProduitDtoResponse addEdit(ProduitDtoRequete dtoReq) throws sqlException {
+	public ProduitDtoResponse addEdit(ProduitDtoRequete dtoReq) throws sqlException, UniteException {
 		Produit p = this.DtoQueryToEntity(dtoReq);
 		return this.entityToDtoResponse(prRepo.save(p));
 	}
@@ -100,7 +102,7 @@ public class ProduitService implements InterfaceService<Produit, ProduitDtoRespo
 	}
 
 	@Override
-	public Produit DtoQueryToEntity(ProduitDtoRequete dtoRequete) throws sqlException {
+	public Produit DtoQueryToEntity(ProduitDtoRequete dtoRequete) throws sqlException, UniteException {
 		Produit p = new Produit();
 		if (dtoRequete.getId() != null)
 			p.setId(dtoRequete.getId());
@@ -110,7 +112,19 @@ public class ProduitService implements InterfaceService<Produit, ProduitDtoRespo
 		p.setMagasin(dtoRequete.getMagasin());
 		p.setPrix(dtoRequete.getPrix());
 		p.setPrixKg(dtoRequete.getPrixKg());
-
+		p.setQuantiteParPersonne(dtoRequete.getQuantiteParPersonne());
+		if (this.checkUnite(dtoRequete.getUnite(), condService.getById(dtoRequete.getConditionnementId()).getUnite())) {
+			p.setUnite(dtoRequete.getUnite());
+		} else
+			throw new UniteException("l'unité ne correspond pas au conditionement");
 		return p;
+	}
+
+	protected boolean checkUnite(Unite uniteA, Unite uniteB) {
+		if ((uniteA.name().contains("GRAMME") && uniteB.name().contains("GRAMME")))
+			return true;
+		if ((uniteA.name().contains("LITRE") && uniteB.name().contains("LITRE")))
+			return true;
+		return false;
 	}
 }
