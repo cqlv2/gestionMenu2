@@ -10,7 +10,7 @@ public class ConditionnementDtoRequete {
 	private Integer id;
 	private Emballage emballage;
 	private Integer nombrePiece;
-	private BigDecimal poidsPiece;
+	private Integer poidsPiece;
 	private Unite unite;
 
 	public Integer getId() {
@@ -37,11 +37,11 @@ public class ConditionnementDtoRequete {
 		this.nombrePiece = nombrePiece;
 	}
 
-	public BigDecimal getPoidsPiece() {
+	public Integer getPoidsPiece() {
 		return poidsPiece;
 	}
 
-	public void setPoidsPiece(BigDecimal poidsPiece) {
+	public void setPoidsPiece(Integer poidsPiece) {
 		this.poidsPiece = poidsPiece;
 	}
 

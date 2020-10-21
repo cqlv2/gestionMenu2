@@ -24,7 +24,7 @@ public class Conditionnement {
 	@Column(name = "nombre_piece")
 	private Integer nombrePiece;
 	@Column(name = "poids_piece", precision = 6, scale = 2)
-	private BigDecimal poidsPiece;
+	private Integer poidsPiece;
 	@Enumerated(EnumType.STRING)
 	private Unite unite;
 
@@ -52,11 +52,11 @@ public class Conditionnement {
 		this.nombrePiece = nombrePiece;
 	}
 
-	public BigDecimal getPoidsPiece() {
+	public Integer getPoidsPiece() {
 		return poidsPiece;
 	}
 
-	public void setPoidsPiece(BigDecimal poidsPiece) {
+	public void setPoidsPiece(Integer poidsPiece) {
 		this.poidsPiece = poidsPiece;
 	}
 

@@ -66,7 +66,7 @@ class ConditionnementServiceTest {
 		ConditionnementDtoRequete cReqAdd = new ConditionnementDtoRequete();
 		cReqAdd.setEmballage(Emballage.BOUTEILLE);
 		cReqAdd.setNombrePiece(1);
-		cReqAdd.setPoidsPiece(new BigDecimal("1"));
+		cReqAdd.setPoidsPiece(1);
 		cReqAdd.setUnite(Unite.KILOGRAME);
 		Assertions.assertThat(condServ.addEdit(cReqAdd)).isInstanceOf(ConditionnementDtoResponse.class);
 		Assertions.assertThat(condServ.getAll()).hasSize(8);
@@ -99,7 +99,7 @@ class ConditionnementServiceTest {
 		ConditionnementDtoRequete cDtoReq = new ConditionnementDtoRequete();
 		cDtoReq.setEmballage(Emballage.BOUTEILLE);
 		cDtoReq.setNombrePiece(1);
-		cDtoReq.setPoidsPiece(new BigDecimal("12.3"));
+		cDtoReq.setPoidsPiece(1);
 		cDtoReq.setUnite(Unite.LITRE);
 		Assertions.assertThat(condServ.DtoQueryToEntity(cDtoReq)).isInstanceOf(Conditionnement.class);
 	}
