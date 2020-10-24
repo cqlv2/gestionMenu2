@@ -16,6 +16,7 @@ import dev.dto.ProduitDtoRequete;
 import dev.dto.ProduitDtoResponse;
 import dev.entity.Produit;
 import dev.enumeration.Categorie;
+import dev.enumeration.Emballage;
 import dev.enumeration.Magasin;
 import dev.enumeration.Unite;
 import dev.exception.UniteException;
@@ -88,6 +89,37 @@ class ProduitServiceTest {
 		Assertions.assertThatThrownBy(() -> prServ.getById(100)).hasMessage("id produit non trouvée");
 	}
 
+	@Test
+	public void testGetAllCat() {
+		Assertions.assertThat(prServ.getAllCat().get(0)).isInstanceOf(Categorie.class);
+		Assertions.assertThat(prServ.getAllCat()).asList();
+		Assertions.assertThat(prServ.getAllCat()).hasSize(9);
+	}
+	
+	@Test
+	public void testGetAllUnit() {
+		Assertions.assertThat(prServ.getAllUnit().get(0)).isInstanceOf(Unite.class);
+		Assertions.assertThat(prServ.getAllUnit()).asList();
+		Assertions.assertThat(prServ.getAllUnit()).hasSize(4);
+	}
+	
+	@Test
+	public void testGetAllMagasin() {
+		Assertions.assertThat(prServ.getAllMagasin().get(0)).isInstanceOf(Magasin.class);
+		Assertions.assertThat(prServ.getAllMagasin()).asList();
+		Assertions.assertThat(prServ.getAllMagasin()).hasSize(8);
+	}
+	
+	@Test
+	public void testGetAllConditionnement() {
+		Assertions.assertThat(prServ.getAllConditionnement().get(0)).isInstanceOf(Emballage.class);
+		Assertions.assertThat(prServ.getAllConditionnement()).asList();
+		Assertions.assertThat(prServ.getAllConditionnement()).hasSize(9);
+	}
+	
+	
+	
+	
 	@Test
 	void testEntityToDtoResponse() throws sqlException {
 		Produit p = prServ.getById(1);

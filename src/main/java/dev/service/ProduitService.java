@@ -2,7 +2,10 @@ package dev.service;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -11,6 +14,7 @@ import dev.dto.ProduitDtoRequete;
 import dev.dto.ProduitDtoResponse;
 import dev.entity.Produit;
 import dev.enumeration.Categorie;
+import dev.enumeration.Emballage;
 import dev.enumeration.Magasin;
 import dev.enumeration.Unite;
 import dev.exception.UniteException;
@@ -88,6 +92,23 @@ public class ProduitService implements InterfaceService<Produit, ProduitDtoRespo
 		}
 	}
 
+	public List<Categorie> getAllCat() {
+		return new ArrayList<Categorie>(Arrays.asList(Categorie.values()));
+	}
+
+	public List<Unite> getAllUnit() {
+		return new ArrayList<Unite>(Arrays.asList(Unite.values()));
+	}
+	
+	public List<Magasin> getAllMagasin() {
+		return new ArrayList<Magasin>(Arrays.asList(Magasin.values()));
+	}
+	
+	public ArrayList<Emballage> getAllConditionnement() {
+		return new ArrayList<Emballage>(Arrays.asList(Emballage.values()));
+	}
+
+
 	@Override
 	public ProduitDtoResponse entityToDtoResponse(Produit entity) {
 
@@ -101,7 +122,7 @@ public class ProduitService implements InterfaceService<Produit, ProduitDtoRespo
 		prodDtoRep.setPrixKg(entity.getPrixKg());
 		prodDtoRep.setQuantiteParPersonne(entity.getQuantiteParPersonne());
 		prodDtoRep.setUnite(entity.getUnite());
-		
+
 		return prodDtoRep;
 	}
 

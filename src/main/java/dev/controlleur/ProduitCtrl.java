@@ -1,5 +1,10 @@
 package dev.controlleur;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,6 +37,17 @@ public class ProduitCtrl {
 		} catch (sqlException e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
+	}
+	
+	@GetMapping("/enums")
+	public ResponseEntity<?> getAllEnum(){
+		@SuppressWarnings("rawtypes")
+		Map<String, List> mapEnum=new HashMap<String,List>();
+		mapEnum.put("categories",prodServ.getAllCat());
+		mapEnum.put("Magasins",prodServ.getAllMagasin());
+		mapEnum.put("unites",prodServ.getAllUnit());
+		mapEnum.put("conditionnements",prodServ.getAllConditionnement());
+		return ResponseEntity.ok().body(mapEnum);
 	}
 	
 	
