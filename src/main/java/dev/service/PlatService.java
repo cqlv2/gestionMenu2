@@ -103,7 +103,6 @@ public class PlatService implements InterfaceService<Plat, platDtoResponse, Plat
 		for (Integer idProduit : dtoRequete.getProduitsId()) {
 			plat.getProduits().add(prServ.getById(idProduit));
 		}
-System.err.println("test -> "+plat);
 		return plat;
 	}
 

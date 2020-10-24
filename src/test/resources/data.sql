@@ -52,3 +52,14 @@ INSERT INTO fk_plat_produit
 ('4', 		'11'), 
 ('4', 		'12'), 
 ('4', 		'13');
+
+INSERT INTO menu 
+(couvert_midi1, couvert_midi2, couvert_soir1, couvert_soir2, date, midi_1, midi_2, soir_1, soir_2) VALUES 
+('2', '3', 	'5', NULL, '2020-10-22', '1', '2', 	'3', NULL),
+('2', NULL, '5', NULL, '2020-10-23', '4', NULL, '1', NULL),
+('2', NULL, '5', NULL, '2020-10-24', '1', NULL, '2', NULL),
+('2', NULL, '5', NULL, '2020-10-25', '2', NULL, '3', NULL),
+('2', NULL, '5', NULL, '2020-10-26', '3', NULL, '4', NULL),
+('2', '3', 	'5', NULL, '2020-10-27', '2', '4', 	'1', NULL),
+('2', NULL, '5', NULL, '2020-10-28', '3', NULL, '2', NULL),
+('2', NULL, '5', NULL, '2020-10-29', '1', NULL, '3', NULL);
