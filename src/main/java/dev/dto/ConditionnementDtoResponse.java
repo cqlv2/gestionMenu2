@@ -13,39 +13,39 @@ public class ConditionnementDtoResponse {
 
 	private Integer id;
 	private Emballage emballage;
-	private Integer nombrePiece;
-	private Integer poidsPiece;
+	private Integer poids;
 	private Unite unite;
 
 	public Integer getId() {
 		return id;
 	}
+
 	public void setId(Integer id) {
 		this.id = id;
 	}
+
 	public Emballage getEmballage() {
 		return emballage;
 	}
+
 	public void setEmballage(Emballage emballage) {
 		this.emballage = emballage;
 	}
-	public Integer getNombrePiece() {
-		return nombrePiece;
+
+	public Integer getPoids() {
+		return poids;
 	}
-	public void setNombrePiece(Integer nombrePiece) {
-		this.nombrePiece = nombrePiece;
+
+	public void setPoids(Integer poids) {
+		this.poids = poids;
 	}
-	public Integer getPoidsPiece() {
-		return poidsPiece;
-	}
-	public void setPoidsPiece(Integer poidsPiece) {
-		this.poidsPiece = poidsPiece;
-	}
+
 	public Unite getUnite() {
 		return unite;
 	}
+
 	public void setUnite(Unite unite) {
 		this.unite = unite;
 	}
-	
+
 }

@@ -10,7 +10,7 @@ import javax.persistence.Entity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import dev.dto.MenuDtoRequete;
+import dev.dto.MenuDtoRequeteUpdate;
 import dev.dto.MenuDtoResponse;
 import dev.entity.Menu;
 import dev.exception.EnumException;
@@ -20,7 +20,7 @@ import dev.interfaces.InterfaceService;
 import dev.repository.MenuRepository;
 
 @Service
-public class MenuService implements InterfaceService<Menu, MenuDtoResponse, MenuDtoRequete> {
+public class MenuService implements InterfaceService<Menu, MenuDtoResponse, MenuDtoRequeteUpdate> {
 
 	private MenuRepository menuRepo;
 	private PlatService platServ;
@@ -51,16 +51,24 @@ public class MenuService implements InterfaceService<Menu, MenuDtoResponse, Menu
 		return list;
 	}
 
-	public List<MenuDtoResponse> getBy(String type, String value, String value2) {
+	public List<MenuDtoResponse> getBetween(String value, String value2) {
 		List<MenuDtoResponse> list = new ArrayList<MenuDtoResponse>();
-		for (Menu menu : menuRepo.findByDateBetween(value, value2)) {
+		for (Menu menu : menuRepo.findByDateBetween(LocalDate.parse(value), LocalDate.parse(value2))) {
 			list.add(this.entityToDtoResponse(menu));
 		}
 		return list;
 	}
 
+	public MenuDtoResponse getByDate(String day) {
+		Optional<Menu> menuOpt = menuRepo.findByDate(LocalDate.parse(day));
+		if (menuOpt.isPresent())
+			return this.entityToDtoResponse(menuOpt.get());
+		else
+			return null;
+	}
+
 	@Override
-	public MenuDtoResponse addEdit(MenuDtoRequete dtoReq) throws sqlException, EnumException, UniteException {
+	public MenuDtoResponse addEdit(MenuDtoRequeteUpdate dtoReq) throws sqlException, EnumException, UniteException {
 		return this.entityToDtoResponse(menuRepo.save(this.DtoQueryToEntity(dtoReq)));
 	}
 
@@ -102,7 +110,7 @@ public class MenuService implements InterfaceService<Menu, MenuDtoResponse, Menu
 	}
 
 	@Override
-	public Menu DtoQueryToEntity(MenuDtoRequete dtoRequete) throws sqlException, UniteException {
+	public Menu DtoQueryToEntity(MenuDtoRequeteUpdate dtoRequete) throws sqlException, UniteException {
 		Menu menu = new Menu();
 		if (dtoRequete.getId() != null)
 			menu.setId(dtoRequete.getId());
@@ -117,4 +125,5 @@ public class MenuService implements InterfaceService<Menu, MenuDtoResponse, Menu
 		menu.setCouvertSoir2(dtoRequete.getCouvertSoir2());
 		return menu;
 	}
+
 }

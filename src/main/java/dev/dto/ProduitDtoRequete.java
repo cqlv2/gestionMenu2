@@ -2,21 +2,60 @@ package dev.dto;
 
 import java.math.BigDecimal;
 
-import dev.entity.Conditionnement;
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
+import org.springframework.beans.factory.annotation.Value;
+
+import com.sun.istack.NotNull;
+
 import dev.enumeration.Categorie;
+import dev.enumeration.Emballage;
 import dev.enumeration.Magasin;
 import dev.enumeration.Unite;
 
+//JSON A ENVOYER
+//{
+//	"id":"ID(OPTIONEL)",
+//	"emballageCond":"LIBELLE",
+//	"poidsCond":"LIBELLE",
+//	"uniteCond":"LIBELLE",
+//	"libelle":"LIBELLE",
+//	"categorie":"CATEGORIE",
+//	"prix":"PRIX",
+//	"magasin":"MAGASIN",
+//	"quantiteParPersonne":"QTEPERSONNE",
+//	"unite":"UNITE"
+//}
+
 public class ProduitDtoRequete {
 	private Integer id = null;
-	private Integer conditionnementId;
+	private Integer idCond=null;
+
+	@NotNull
+	private Emballage emballage;
+	@NotNull
+	private Integer poidsCond;
+	@NotNull
+	private Unite uniteCond;
+
+	@NotNull
+	@NotEmpty
+	@Length(max = 255)
 	private String libelle;
+	@NotNull
 	private Categorie categorie;
+	@NotNull
 	private BigDecimal prix;
-	private BigDecimal prixKg;
+	private BigDecimal prixKg=null;
+	@NotNull
 	private Magasin magasin;
+	@NotNull
 	private Integer quantiteParPersonne;
+	@NotNull
 	private Unite unite;
+
+//	getteur setteur	
 
 	public Integer getId() {
 		return id;
@@ -26,12 +65,36 @@ public class ProduitDtoRequete {
 		this.id = id;
 	}
 
-	public Integer getConditionnementId() {
-		return conditionnementId;
+	public Integer getIdCond() {
+		return idCond;
 	}
 
-	public void setConditionnementId(Integer conditionnementId) {
-		this.conditionnementId = conditionnementId;
+	public void setIdCond(Integer idCond) {
+		this.idCond = idCond;
+	}
+
+	public Emballage getEmballage() {
+		return emballage;
+	}
+
+	public void setEmballage(Emballage emballage) {
+		this.emballage = emballage;
+	}
+
+	public Integer getPoidsCond() {
+		return poidsCond;
+	}
+
+	public void setPoidsCond(Integer poidsCond) {
+		this.poidsCond = poidsCond;
+	}
+
+	public Unite getUniteCond() {
+		return uniteCond;
+	}
+
+	public void setUniteCond(Unite uniteCond) {
+		this.uniteCond = uniteCond;
 	}
 
 	public String getLibelle() {

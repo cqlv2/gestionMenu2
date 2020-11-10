@@ -21,10 +21,7 @@ public class Conditionnement {
 	private Integer id;
 	@Enumerated(EnumType.STRING)
 	private Emballage emballage;
-	@Column(name = "nombre_piece")
-	private Integer nombrePiece;
-	@Column(name = "poids_piece", precision = 6, scale = 2)
-	private Integer poidsPiece;
+	private Integer poids;
 	@Enumerated(EnumType.STRING)
 	private Unite unite;
 
@@ -44,20 +41,12 @@ public class Conditionnement {
 		this.emballage = emballage;
 	}
 
-	public Integer getNombrePiece() {
-		return nombrePiece;
+	public Integer getPoids() {
+		return poids;
 	}
 
-	public void setNombrePiece(Integer nombrePiece) {
-		this.nombrePiece = nombrePiece;
-	}
-
-	public Integer getPoidsPiece() {
-		return poidsPiece;
-	}
-
-	public void setPoidsPiece(Integer poidsPiece) {
-		this.poidsPiece = poidsPiece;
+	public void setPoids(Integer poids) {
+		this.poids = poids;
 	}
 
 	public Unite getUnite() {

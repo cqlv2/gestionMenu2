@@ -2,7 +2,7 @@ package dev.dto;
 
 import java.time.LocalDate;
 
-public class MenuDtoRequete {
+public class MenuDtoRequeteUpdate {
 	private Integer id = null;
 	private LocalDate date;
 	private Integer midi1Id;

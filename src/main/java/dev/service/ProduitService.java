@@ -3,9 +3,7 @@ package dev.service;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -16,11 +14,14 @@ import dev.entity.Produit;
 import dev.enumeration.Categorie;
 import dev.enumeration.Emballage;
 import dev.enumeration.Magasin;
+import dev.enumeration.SearchOperation;
 import dev.enumeration.Unite;
 import dev.exception.UniteException;
 import dev.exception.sqlException;
 import dev.interfaces.InterfaceService;
 import dev.repository.ProduitRepository;
+import dev.spec.ProduitSpecification;
+import dev.spec.SearchCriteria;
 
 @Service
 
@@ -43,41 +44,44 @@ public class ProduitService implements InterfaceService<Produit, ProduitDtoRespo
 		return list;
 	}
 
+	//TODO remove getBy from interface
 	@Override
 	public List<ProduitDtoResponse> getBy(String type, String value) {
+		return null;
+	}
+
+	//TODO add searchByFilter from interface
+	public List<ProduitDtoResponse> searchByFilters(String libelle, String categorie, String magasin, String prixmin, String prixmax, String prixkgmin, String prixkgmax, String search) {
+		ProduitSpecification prSpec = new ProduitSpecification();		
+		if(libelle!=null) prSpec.add(new SearchCriteria("libelle", libelle, SearchOperation.EQUAL));
+		if(categorie!=null)prSpec.add(new SearchCriteria("categorie", Categorie.valueOf(categorie), SearchOperation.EQUAL));
+		if(magasin!=null) prSpec.add(new SearchCriteria("magasin", Magasin.valueOf(magasin), SearchOperation.EQUAL));
+		if(prixmin!=null) prSpec.add(new SearchCriteria("prix", new BigDecimal(prixmin), SearchOperation.GREATER_THAN_EQUAL));
+		if(prixmax!=null) prSpec.add(new SearchCriteria("prix", new BigDecimal(prixmax), SearchOperation.LESS_THAN));
+		if(prixkgmin!=null) prSpec.add(new SearchCriteria("prixKg", new BigDecimal(prixkgmin), SearchOperation.GREATER_THAN_EQUAL));
+		if(prixkgmax!=null) prSpec.add(new SearchCriteria("prixKg", new BigDecimal(prixkgmax), SearchOperation.LESS_THAN));
+		if(search!=null) prSpec.add(new SearchCriteria("libelle", search, SearchOperation.MATCH));
 		List<ProduitDtoResponse> list = new ArrayList<ProduitDtoResponse>();
-		List<Produit> lp = null;
-		switch (type) {
-		case "libelle":
-			lp = prRepo.findByLibelleContaining(value);
-			break;
-		case "categorie":
-			lp = prRepo.findBycategorie(Categorie.valueOf(value));
-			break;
-		case "prixSup":
-			lp = prRepo.findByPrixGreaterThanEqual(new BigDecimal(value));
-			break;
-		case "prixInf":
-			lp = prRepo.findByPrixLessThan(new BigDecimal(value));
-			break;
-		case "prixKgSup":
-			lp = prRepo.findByPrixKgGreaterThanEqual(new BigDecimal(value));
-			break;
-		case "prixKgInf":
-			lp = prRepo.findByPrixKgLessThan(new BigDecimal(value));
-			break;
-		case "magasin":
-			lp = prRepo.findByMagasin(Magasin.valueOf(value));
-			break;
-		}
-		for (Produit p : lp) {
-			list.add(this.entityToDtoResponse(p));
+		for (Produit produit : prRepo.findAll(prSpec)) {
+			list.add(this.entityToDtoResponse(produit));
 		}
 		return list;
 	}
 
 	@Override
 	public ProduitDtoResponse addEdit(ProduitDtoRequete dtoReq) throws sqlException, UniteException {
+		// verification du conditionnement
+		if (dtoReq.getIdCond() == null) {
+			dtoReq.setIdCond(condService.findBy(dtoReq.getEmballage(), dtoReq.getPoidsCond(), dtoReq.getUniteCond()));
+		}
+		// calcul du prix au kilo/litre
+		int poids = dtoReq.getPoidsCond();
+		if (dtoReq.getUniteCond() == Unite.KILOGRAMME || dtoReq.getUniteCond() == Unite.LITRE)
+			poids = poids * 1000;
+		BigDecimal prixKg = dtoReq.getPrix().multiply(new BigDecimal("1000"));
+		prixKg = prixKg.divide(new BigDecimal(poids));
+		dtoReq.setPrixKg(prixKg);
+		// enregistrement
 		Produit p = this.DtoQueryToEntity(dtoReq);
 		return this.entityToDtoResponse(prRepo.save(p));
 	}
@@ -92,6 +96,14 @@ public class ProduitService implements InterfaceService<Produit, ProduitDtoRespo
 		}
 	}
 
+	public List<ProduitDtoResponse> getByMagCat(Magasin mag, Categorie cat) {
+		List<ProduitDtoResponse> list = new ArrayList<ProduitDtoResponse>();
+		for (Produit p : prRepo.findByCategorieAndMagasin(cat, mag)) {
+			list.add(this.entityToDtoResponse(p));
+		}
+		return list;
+	}
+
 	public List<Categorie> getAllCat() {
 		return new ArrayList<Categorie>(Arrays.asList(Categorie.values()));
 	}
@@ -99,15 +111,14 @@ public class ProduitService implements InterfaceService<Produit, ProduitDtoRespo
 	public List<Unite> getAllUnit() {
 		return new ArrayList<Unite>(Arrays.asList(Unite.values()));
 	}
-	
+
 	public List<Magasin> getAllMagasin() {
 		return new ArrayList<Magasin>(Arrays.asList(Magasin.values()));
 	}
-	
+
 	public ArrayList<Emballage> getAllConditionnement() {
 		return new ArrayList<Emballage>(Arrays.asList(Emballage.values()));
 	}
-
 
 	@Override
 	public ProduitDtoResponse entityToDtoResponse(Produit entity) {
@@ -132,19 +143,17 @@ public class ProduitService implements InterfaceService<Produit, ProduitDtoRespo
 		if (dtoRequete.getId() != null)
 			p.setId(dtoRequete.getId());
 		p.setCategorie(dtoRequete.getCategorie());
-		p.setConditionnement(condService.getById(dtoRequete.getConditionnementId()));
+		p.setConditionnement(condService.getById(dtoRequete.getIdCond()));
 		p.setLibelle(dtoRequete.getLibelle());
 		p.setMagasin(dtoRequete.getMagasin());
 		p.setPrix(dtoRequete.getPrix());
 		p.setPrixKg(dtoRequete.getPrixKg());
 		p.setQuantiteParPersonne(dtoRequete.getQuantiteParPersonne());
-		if (this.checkUnite(dtoRequete.getUnite(), condService.getById(dtoRequete.getConditionnementId()).getUnite())) {
-			p.setUnite(dtoRequete.getUnite());
-		} else
-			throw new UniteException("l'unité ne correspond pas au conditionement");
+		p.setUnite(dtoRequete.getUnite());
 		return p;
 	}
 
+	// TODO a deplacer a la verif d'un conditionnement
 	protected boolean checkUnite(Unite uniteA, Unite uniteB) {
 		if ((uniteA.name().contains("GRAMME") && uniteB.name().contains("GRAMME")))
 			return true;
@@ -152,4 +161,5 @@ public class ProduitService implements InterfaceService<Produit, ProduitDtoRespo
 			return true;
 		return false;
 	}
+
 }

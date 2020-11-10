@@ -1,17 +1,17 @@
 INSERT INTO conditionnement 
-(emballage, 	nombre_piece, 	poids_piece, unite) VALUES 
-('PAQUET', 		'1', 			'1', 		'KILOGRAMME'), 
-('POT', 		'1', 			'250', 		'GRAMME'), 
-('BOITE', 		'1', 			'1', 		'KILOGRAMME'), 
-('POT', 		'1', 			'250', 		'CENTILITRE'), 
-('FILET', 		'10', 			'50', 		'GRAMME'), 
-('BARQUETTE', 	'2', 			'200', 		'GRAMME'), 
-('PAQUET', 		'15', 			'80', 		'GRAMME'), 
-('PAQUET', 		'5', 			'100', 		'GRAMME'), 
-('PIECE', 		'1', 			'50', 		'GRAMME'), 
-('BARQUETTE', 	'10', 			'100', 		'GRAMME'), 
-('PAQUET', 		'1', 			'1', 		'KILOGRAMME'), 
-('PAQUET', 		'6', 			'1', 		'LITRE');
+(emballage, 	 	poids,		 unite) VALUES 
+('PAQUET', 			'1', 		'KILOGRAMME'), 
+('POT', 			'250', 		'GRAMME'), 
+('BOITE', 			'1', 		'KILOGRAMME'), 
+('POT', 			'250', 		'CENTILITRE'), 
+('FILET', 			'50', 		'GRAMME'), 
+('BARQUETTE', 		'200', 		'GRAMME'), 
+('PAQUET', 			'80', 		'GRAMME'), 
+('PAQUET', 			'100', 		'GRAMME'), 
+('PIECE', 			'50', 		'GRAMME'), 
+('BARQUETTE', 		'100', 		'GRAMME'), 
+('PAQUET', 			'1', 		'KILOGRAMME'), 
+('PAQUET', 			'1', 		'LITRE');
 
 INSERT INTO produit 
 (categorie, 		libelle, 			magasin, 	prix, 	prix_kg, 	conditionnement_id,	quantite_par_personne, 	unite) VALUES 

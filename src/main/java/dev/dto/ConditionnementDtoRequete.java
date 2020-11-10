@@ -1,16 +1,19 @@
 package dev.dto;
 
-import java.math.BigDecimal;
+import com.sun.istack.NotNull;
 
 import dev.enumeration.Emballage;
 import dev.enumeration.Unite;
 
 public class ConditionnementDtoRequete {
 
-	private Integer id;
+	
+	private Integer id = null;
+	@NotNull
 	private Emballage emballage;
-	private Integer nombrePiece;
-	private Integer poidsPiece;
+	@NotNull
+	private Integer poids;
+	@NotNull
 	private Unite unite;
 
 	public Integer getId() {
@@ -29,20 +32,12 @@ public class ConditionnementDtoRequete {
 		this.emballage = emballage;
 	}
 
-	public Integer getNombrePiece() {
-		return nombrePiece;
+	public Integer getPoids() {
+		return poids;
 	}
 
-	public void setNombrePiece(Integer nombrePiece) {
-		this.nombrePiece = nombrePiece;
-	}
-
-	public Integer getPoidsPiece() {
-		return poidsPiece;
-	}
-
-	public void setPoidsPiece(Integer poidsPiece) {
-		this.poidsPiece = poidsPiece;
+	public void setPoids(Integer poids) {
+		this.poids = poids;
 	}
 
 	public Unite getUnite() {
@@ -52,4 +47,5 @@ public class ConditionnementDtoRequete {
 	public void setUnite(Unite unite) {
 		this.unite = unite;
 	}
+
 }

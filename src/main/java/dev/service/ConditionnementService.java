@@ -15,6 +15,7 @@ import dev.entity.Produit;
 import dev.enumeration.Categorie;
 import dev.enumeration.Emballage;
 import dev.enumeration.Magasin;
+import dev.enumeration.Unite;
 import dev.exception.EnumException;
 import dev.exception.sqlException;
 import dev.interfaces.InterfaceService;
@@ -54,6 +55,21 @@ public class ConditionnementService
 		return list;
 	}
 
+	public int findBy(Emballage emballage, Integer poidsCond, Unite uniteCond) {
+		Optional<Conditionnement> optCond = condRepo.findByEmballageAndPoidsAndUnite(emballage, poidsCond, uniteCond);
+		if (optCond.isPresent()) {
+			System.out.println("conditionnement trouvé");
+			return optCond.get().getId();
+		} else {
+			System.out.println("conditionnement créé");
+			Conditionnement newCond = new Conditionnement();
+			newCond.setEmballage(emballage);
+			newCond.setPoids(poidsCond);
+			newCond.setUnite(uniteCond);
+			return condRepo.save(newCond).getId();
+		}
+	}
+
 	@Override
 	public ConditionnementDtoResponse addEdit(ConditionnementDtoRequete dtoReq) {
 		return this.entityToDtoResponse(condRepo.save(this.DtoQueryToEntity(dtoReq)));
@@ -74,8 +90,7 @@ public class ConditionnementService
 		ConditionnementDtoResponse condDtoRep = new ConditionnementDtoResponse();
 		condDtoRep.setEmballage(entity.getEmballage());
 		condDtoRep.setId(entity.getId());
-		condDtoRep.setNombrePiece(entity.getNombrePiece());
-		condDtoRep.setPoidsPiece(entity.getPoidsPiece());
+		condDtoRep.setPoids(entity.getPoids());
 		condDtoRep.setUnite(entity.getUnite());
 		return condDtoRep;
 	}
@@ -86,8 +101,7 @@ public class ConditionnementService
 		if (dtoRequete.getId() != null)
 			c.setId(dtoRequete.getId());
 		c.setEmballage(dtoRequete.getEmballage());
-		c.setNombrePiece(dtoRequete.getNombrePiece());
-		c.setPoidsPiece(dtoRequete.getPoidsPiece());
+		c.setPoids(dtoRequete.getPoids());
 		c.setUnite(dtoRequete.getUnite());
 		return c;
 	}

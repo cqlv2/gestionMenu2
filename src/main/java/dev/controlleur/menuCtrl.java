@@ -1,11 +1,13 @@
 package dev.controlleur;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import dev.entity.Menu;
@@ -27,5 +29,16 @@ public class menuCtrl {
 	public ResponseEntity<?> getAll(){
 		return ResponseEntity.ok().body(menuServ.getAll());
 	}
+	
+	@GetMapping(params = {"date1","date2"})
+	public ResponseEntity<?> getBetween(@RequestParam String date1, @RequestParam String date2){
+		return ResponseEntity.ok().body(menuServ.getBetween(date1, date2));
+	}
+	
+	@GetMapping(params = "day")
+	public ResponseEntity<?> getByDate(String day){
+		return ResponseEntity.ok().body(menuServ.getByDate(day));
+	}
+	
 	
 }
