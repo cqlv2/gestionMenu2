@@ -10,9 +10,9 @@ import org.springframework.beans.factory.annotation.Value;
 import com.sun.istack.NotNull;
 
 import dev.enumeration.Categorie;
-import dev.enumeration.Emballage;
+import dev.enumeration.PackagingEnum;
 import dev.enumeration.Magasin;
-import dev.enumeration.Unite;
+import dev.enumeration.UnitEnum;
 
 //JSON A ENVOYER
 //{
@@ -33,11 +33,11 @@ public class ProduitDtoRequete {
 	private Integer idCond=null;
 
 	@NotNull
-	private Emballage emballage;
+	private PackagingEnum emballage;
 	@NotNull
 	private Integer poidsCond;
 	@NotNull
-	private Unite uniteCond;
+	private UnitEnum uniteCond;
 
 	@NotNull
 	@NotEmpty
@@ -53,7 +53,7 @@ public class ProduitDtoRequete {
 	@NotNull
 	private Integer quantiteParPersonne;
 	@NotNull
-	private Unite unite;
+	private UnitEnum unite;
 
 //	getteur setteur	
 
@@ -73,11 +73,11 @@ public class ProduitDtoRequete {
 		this.idCond = idCond;
 	}
 
-	public Emballage getEmballage() {
+	public PackagingEnum getEmballage() {
 		return emballage;
 	}
 
-	public void setEmballage(Emballage emballage) {
+	public void setEmballage(PackagingEnum emballage) {
 		this.emballage = emballage;
 	}
 
@@ -89,11 +89,11 @@ public class ProduitDtoRequete {
 		this.poidsCond = poidsCond;
 	}
 
-	public Unite getUniteCond() {
+	public UnitEnum getUniteCond() {
 		return uniteCond;
 	}
 
-	public void setUniteCond(Unite uniteCond) {
+	public void setUniteCond(UnitEnum uniteCond) {
 		this.uniteCond = uniteCond;
 	}
 
@@ -145,11 +145,11 @@ public class ProduitDtoRequete {
 		this.quantiteParPersonne = quantiteParPersonne;
 	}
 
-	public Unite getUnite() {
+	public UnitEnum getUnite() {
 		return unite;
 	}
 
-	public void setUnite(Unite unite) {
+	public void setUnite(UnitEnum unite) {
 		this.unite = unite;
 	}
 

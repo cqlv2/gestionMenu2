@@ -4,15 +4,15 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.stereotype.Repository;
 
-import dev.entity.Conditionnement;
-import dev.enumeration.Emballage;
-import dev.enumeration.Unite;
+import dev.entity.Packaging;
+import dev.enumeration.PackagingEnum;
+import dev.enumeration.UnitEnum;
 
-public interface ConditionnementRepository extends JpaRepository<Conditionnement, Integer>{
-
-	List<Conditionnement> findByEmballage(Emballage valueOf);
-
-	Optional<Conditionnement> findByEmballageAndPoidsAndUnite(Emballage emballage, Integer poidsCond, Unite uniteCond);
+@Repository
+public interface ConditionnementRepository
+		extends JpaRepository<Packaging, Integer>, JpaSpecificationExecutor<Packaging> {
 
 }

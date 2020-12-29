@@ -10,10 +10,10 @@ import javax.persistence.criteria.Root;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import dev.entity.Produit;
+import dev.entity.Product;
 import dev.enumeration.SearchOperation;
 
-public class ProduitSpecification implements Specification<Produit> {
+public class ProduitSpecification implements Specification<Product> {
 
     private List<SearchCriteria> list;
 
@@ -25,7 +25,7 @@ public class ProduitSpecification implements Specification<Produit> {
         list.add(criteria);
     }
     @Override
-	public Predicate toPredicate(Root<Produit> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+	public Predicate toPredicate(Root<Product> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
 		//create a new predicate list
         List<Predicate> predicates = new ArrayList<>();
 

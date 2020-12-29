@@ -1,109 +1,64 @@
 package dev.service;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import dev.dto.ConditionnementDtoRequete;
-import dev.dto.ConditionnementDtoResponse;
-import dev.dto.ProduitDtoResponse;
-import dev.entity.Conditionnement;
-import dev.entity.Produit;
-import dev.enumeration.Categorie;
-import dev.enumeration.Emballage;
-import dev.enumeration.Magasin;
-import dev.enumeration.Unite;
-import dev.exception.EnumException;
-import dev.exception.sqlException;
-import dev.interfaces.InterfaceService;
+import dev.dto.PackagingDtoResponse;
+import dev.entity.Packaging;
+import dev.exception.repositoryException;
 import dev.repository.ConditionnementRepository;
+import dev.spec.ConditionnementParameters;
+import dev.spec.ConditionnementSpecs;
+import dev.utils.transformer.PackagingTransformer;
 
 @Service
-public class ConditionnementService
-		implements InterfaceService<Conditionnement, ConditionnementDtoResponse, ConditionnementDtoRequete> {
+public class ConditionnementService {
 
 	private ConditionnementRepository condRepo;
+
+	// constructor
 
 	public ConditionnementService(ConditionnementRepository condRepo) {
 		this.condRepo = condRepo;
 	}
 
-	@Override
-	public List<ConditionnementDtoResponse> getAll() {
-		List<ConditionnementDtoResponse> list = new ArrayList<ConditionnementDtoResponse>();
-		for (Conditionnement c : condRepo.findAll()) {
-			list.add(this.entityToDtoResponse(c));
+	// lire tout
+
+	public List<PackagingDtoResponse> getAll() {
+		List<PackagingDtoResponse> list = new ArrayList<PackagingDtoResponse>();
+		for (Packaging c : condRepo.findAll()) {
+			list.add(PackagingTransformer.entityToDtoResponse(c));
 		}
 		return list;
 	}
 
-	@Override
-	public List<ConditionnementDtoResponse> getBy(String type, String value) throws EnumException {
-		List<ConditionnementDtoResponse> list = new ArrayList<ConditionnementDtoResponse>();
-		List<Conditionnement> lc = null;
-		switch (type) {
-		case "emballage":
-			lc = condRepo.findByEmballage(Emballage.valueOf(value));
-			break;
-		}
-		for (Conditionnement c : lc) {
-			list.add(this.entityToDtoResponse(c));
+	// lire par filtre depuis un json
+
+	public List<PackagingDtoResponse> getBy(ConditionnementParameters params) {
+		Specification<Packaging> spec1 = ConditionnementSpecs.packagingEquals(params.getPackaging());
+		Specification<Packaging> spec2 = ConditionnementSpecs.weightGreaterThanEquals(params.getMinWeight());
+		Specification<Packaging> spec3 = ConditionnementSpecs.weightLessThanEquals(params.getMaxWeight());
+		Specification<Packaging> spec4 = ConditionnementSpecs.unitEquals(params.getUnit());
+		Specification<Packaging> spec = Specification.where(spec1).and(spec2).and(spec3).and(spec4);
+		List<PackagingDtoResponse> list = new ArrayList<PackagingDtoResponse>();
+		for (Packaging cond : condRepo.findAll(spec)) {
+			list.add(PackagingTransformer.entityToDtoResponse(cond));
 		}
 		return list;
 	}
 
-	public int findBy(Emballage emballage, Integer poidsCond, Unite uniteCond) {
-		Optional<Conditionnement> optCond = condRepo.findByEmballageAndPoidsAndUnite(emballage, poidsCond, uniteCond);
-		if (optCond.isPresent()) {
-			System.out.println("conditionnement trouvé");
-			return optCond.get().getId();
-		} else {
-			System.out.println("conditionnement créé");
-			Conditionnement newCond = new Conditionnement();
-			newCond.setEmballage(emballage);
-			newCond.setPoids(poidsCond);
-			newCond.setUnite(uniteCond);
-			return condRepo.save(newCond).getId();
-		}
-	}
+	// lire par id
+	public PackagingDtoResponse getById(Integer id) throws repositoryException {
+		Optional<Packaging> opt = condRepo.findById(id);
+		if (opt.isPresent()) 
+			return PackagingTransformer.entityToDtoResponse(opt.get());
+		 else
+			throw new repositoryException("id non trouvée");
 
-	@Override
-	public ConditionnementDtoResponse addEdit(ConditionnementDtoRequete dtoReq) {
-		return this.entityToDtoResponse(condRepo.save(this.DtoQueryToEntity(dtoReq)));
-	}
-
-	@Override
-	public Conditionnement getById(int id) throws sqlException {
-		Optional<Conditionnement> condOpt = condRepo.findById(id);
-		if (condOpt.isPresent()) {
-			return condOpt.get();
-		} else {
-			throw new sqlException("id du conditionnement non trouvée");
-		}
-	}
-
-	@Override
-	public ConditionnementDtoResponse entityToDtoResponse(Conditionnement entity) {
-		ConditionnementDtoResponse condDtoRep = new ConditionnementDtoResponse();
-		condDtoRep.setEmballage(entity.getEmballage());
-		condDtoRep.setId(entity.getId());
-		condDtoRep.setPoids(entity.getPoids());
-		condDtoRep.setUnite(entity.getUnite());
-		return condDtoRep;
-	}
-
-	@Override
-	public Conditionnement DtoQueryToEntity(ConditionnementDtoRequete dtoRequete) {
-		Conditionnement c = new Conditionnement();
-		if (dtoRequete.getId() != null)
-			c.setId(dtoRequete.getId());
-		c.setEmballage(dtoRequete.getEmballage());
-		c.setPoids(dtoRequete.getPoids());
-		c.setUnite(dtoRequete.getUnite());
-		return c;
 	}
 
 }
