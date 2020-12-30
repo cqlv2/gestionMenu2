@@ -8,6 +8,16 @@ import javax.validation.constraints.NotNull;
 import dev.enumeration.PackagingEnum;
 import dev.enumeration.UnitEnum;
 
+//**json**
+//	{ 
+//		"id":1,
+//		"packaging":"PAQUET",
+//		"weight":"1230",
+//		"unit":"GRAMME",
+//		"productsId":[1,2,3],
+//	}
+
+
 /**
  * data transfer object between the service layer and the persistence layer.
  * adds a layer of security by validating values with
@@ -17,24 +27,24 @@ import dev.enumeration.UnitEnum;
  * @version 0.1
  *
  */
-public class PackagingDtoRequete {
+public class PackagingDtoQuery {
 
-	private Integer id = null;
+	private Long id = null;
 	@NotNull
 	private PackagingEnum packaging;
 	@NotNull
-	private Integer weight;
+	private Float weight;
 	@NotNull
 	private UnitEnum unit;
-	private List<Integer> productsId = new ArrayList<Integer>();
+	private List<Long> productsId = new ArrayList<>();
 
 	// getteur setteur
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -46,11 +56,11 @@ public class PackagingDtoRequete {
 		this.packaging = packaging;
 	}
 
-	public Integer getWeight() {
+	public Float getWeight() {
 		return weight;
 	}
 
-	public void setWeight(Integer weight) {
+	public void setWeight(Float weight) {
 		this.weight = weight;
 	}
 
@@ -62,11 +72,11 @@ public class PackagingDtoRequete {
 		this.unit = unit;
 	}
 
-	public List<Integer> getProductsId() {
+	public List<Long> getProductsId() {
 		return productsId;
 	}
 
-	public void setProductsId(List<Integer> productsId) {
+	public void setProductsId(List<Long> productsId) {
 		this.productsId = productsId;
 	}
 

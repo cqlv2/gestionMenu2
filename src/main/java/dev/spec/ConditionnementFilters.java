@@ -3,7 +3,7 @@ package dev.spec;
 import dev.enumeration.PackagingEnum;
 import dev.enumeration.UnitEnum;
 
-public class ConditionnementParameters {
+public class ConditionnementFilters {
 
 	private PackagingEnum packaging;
 	private Float maxWeight;

@@ -12,7 +12,7 @@ import dev.enumeration.PackagingEnum;
 import dev.enumeration.UnitEnum;
 
 @Repository
-public interface ConditionnementRepository
-		extends JpaRepository<Packaging, Integer>, JpaSpecificationExecutor<Packaging> {
+public interface PackagingRepository
+		extends JpaRepository<Packaging, Long>, JpaSpecificationExecutor<Packaging> {
 
 }

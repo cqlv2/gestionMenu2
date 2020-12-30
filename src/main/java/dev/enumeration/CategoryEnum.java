@@ -1,6 +1,6 @@
 package dev.enumeration;
 
-public enum Categorie {
+public enum CategoryEnum {
 	FECULENT, FRUIT, LEGUME,PRODUIT_LAITIER, VIANDE, POISSON, OEUF, MATIERE_GRASSE, PLAT_PREPARE
 	
 }

@@ -1,41 +1,26 @@
 package dev.entity;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.UniqueConstraint;
 
 import dev.enumeration.PackagingEnum;
 import dev.enumeration.UnitEnum;
 
 /**
- * entity for the management of product packaging indexed on the auto-generate
- * id of type integer the units are managed from the "UNITE" enumeration the
- * packages are managed from the "EMBALLAGE" enumeration created the
- * "CONDITIONNEMENT" table in the database with a 1n relationship with the
- * "PRODUIT" table
- * 
+ * entity for the management of product packaging. The units are managed from
+ * the "unitEnnum" enumeration. The packages are managed from the
+ * "packagingEnnum" enumeration. Created the "packaging" table in the database
+ * with a 1n relationship with the "Product" table
  * 
  * @author cql-v2
- * @version 0.1
+ * @version 1.0
  */
 @Entity
-public class Packaging {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+public class Packaging extends SuperEntity {
 
 	@Enumerated(EnumType.STRING)
 	private PackagingEnum packaging;
@@ -49,14 +34,6 @@ public class Packaging {
 	private List<Product> products;
 
 	// getteur setteur
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
 
 	public PackagingEnum getPackaging() {
 		return packaging;

@@ -1,17 +1,15 @@
 package dev.utils.transformer;
 
-import dev.dto.PackagingDtoRequete;
+import dev.dto.PackagingDtoQuery;
 import dev.dto.PackagingDtoResponse;
 import dev.entity.Packaging;
 import dev.entity.Product;
 
 /**
- * [EN] transformation between a packaging entity and a data transfer object -
- * [FR] transformation entre une entité conditionnement et un objet de transfert
- * de données
+ * transformation between a packaging entity and a data transfer object 
  *
  * @author cql-v2
- * @version 0.1
+ * @version 1.0
  *
  */
 public class PackagingTransformer {
@@ -33,21 +31,20 @@ public class PackagingTransformer {
 	 * @param dtoRequete data transfer object to be transformed
 	 * @return a packaging entity
 	 */
-//	public static Packaging DtoQueryToEntity(PackagingDtoRequete dtoRequete) {
-//		Packaging c = new Packaging();
-//		if (dtoRequete.getId() != null)
-//			c.setId(dtoRequete.getId());
-//		c.setEmballage(dtoRequete.getEmballage());
-//		c.setPoids(dtoRequete.getPoids());
-//		c.setUnite(dtoRequete.getUnite());
-//
-//		for (Integer idProd : dtoRequete.getProduitsId()) {
-//			Product p = new Product();
-//			p.setId(idProd);
-//			c.getProduits().add(p);
-//		}
-//
-//		return c;
-//	}
+	public static Packaging dtoToEntity(PackagingDtoQuery dtoRequete) {
+		Packaging c = new Packaging();
+		if (dtoRequete.getId() != null)
+			c.setId(dtoRequete.getId());
+		c.setPackaging(dtoRequete.getPackaging());
+		c.setWeight(dtoRequete.getWeight());
+		c.setUnit(dtoRequete.getUnit());
+
+		for (Long idProd : dtoRequete.getProductsId()) {
+			Product p = new Product();
+			p.setId(idProd);
+			c.getProducts().add(p);
+		}
+		return c;
+	}
 
 }

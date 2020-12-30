@@ -1,6 +1,4 @@
-package dev.exception;
-
-import java.util.function.Supplier;
+package dev.exceptions;
 
 public class repositoryException extends Exception {
 
@@ -8,7 +6,5 @@ public class repositoryException extends Exception {
 		super(message);
 		// TODO Auto-generated constructor stub
 	}
-
-	
 
 }

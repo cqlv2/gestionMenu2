@@ -13,31 +13,29 @@ import dev.enumeration.UnitEnum;
  */
 public class PackagingDtoResponse {
 
-	private Integer id;
+	private Long id;
 	private PackagingEnum packaging;
 	private Float weight;
 	private UnitEnum unit;
 
-	//constructors
-	
-	public PackagingDtoResponse() {
-		
-	}
-	
-	public PackagingDtoResponse(Packaging packaging) {
-		 this.id=packaging.getId();
-		 this.packaging=packaging.getPackaging();
-		 this.weight=packaging.getWeight();
-		 this.unit=packaging.getUnit();
-	}
-	
-	// getteur setteur
+	// constructors
 
-	public Integer getId() {
+	public PackagingDtoResponse() {
+
+	}
+
+	public PackagingDtoResponse(Packaging packaging) {
+		this.id = packaging.getId();
+		this.packaging = packaging.getPackaging();
+		this.weight = packaging.getWeight();
+		this.unit = packaging.getUnit();
+	}
+
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
