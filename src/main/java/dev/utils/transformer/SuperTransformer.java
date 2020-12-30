@@ -1,7 +1,9 @@
 package dev.utils.transformer;
 
 import dev.entity.SuperEntity;
-import dev.dto.PackagingDtoQuery;
+import dev.dto.member.MemberDtoQuery;
+import dev.dto.packaging.PackagingDtoQuery;
+import dev.entity.Member;
 import dev.entity.Packaging;
 
 /**
@@ -23,6 +25,9 @@ public class SuperTransformer {
 		case "Packaging":
 			return PackagingTransformer.entityToDtoResponse((Packaging) entity);
 
+		case "Member":
+			return MemberTransformer.entityToDtoResponse((Member) entity);
+
 		default:
 			// TODO Auto-generated method stub
 			return null;
@@ -31,9 +36,13 @@ public class SuperTransformer {
 	}
 
 	public static Object dtoToEntity(Object dtoQuery) {
+		//System.err.println("super transformer -> class trouvé : "+dtoQuery.getClass().getSimpleName());
 		switch (dtoQuery.getClass().getSimpleName()) {
 		case "PackagingDtoQuery":
 			return PackagingTransformer.dtoToEntity((PackagingDtoQuery) dtoQuery);
+			
+		case "MemberDtoQuery":
+			return MemberTransformer.dtoToEntity((MemberDtoQuery) dtoQuery);
 
 		default:
 			return null;

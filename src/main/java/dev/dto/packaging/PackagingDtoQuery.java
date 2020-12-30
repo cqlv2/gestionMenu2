@@ -1,10 +1,11 @@
-package dev.dto;
+package dev.dto.packaging;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
+import dev.dto.SuperDto;
 import dev.enumeration.PackagingEnum;
 import dev.enumeration.UnitEnum;
 
@@ -17,7 +18,6 @@ import dev.enumeration.UnitEnum;
 //		"productsId":[1,2,3],
 //	}
 
-
 /**
  * data transfer object between the service layer and the persistence layer.
  * adds a layer of security by validating values with
@@ -27,9 +27,8 @@ import dev.enumeration.UnitEnum;
  * @version 0.1
  *
  */
-public class PackagingDtoQuery {
+public class PackagingDtoQuery extends SuperDto {
 
-	private Long id = null;
 	@NotNull
 	private PackagingEnum packaging;
 	@NotNull
@@ -39,14 +38,6 @@ public class PackagingDtoQuery {
 	private List<Long> productsId = new ArrayList<>();
 
 	// getteur setteur
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	public PackagingEnum getPackaging() {
 		return packaging;

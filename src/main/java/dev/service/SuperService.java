@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import dev.dto.SuperDto;
 import dev.entity.SuperEntity;
 import dev.exceptions.repositoryException;
 import dev.utils.transformer.SuperTransformer;
@@ -26,7 +27,7 @@ import dev.utils.transformer.SuperTransformer;
  * 
  */
 
-public abstract class SuperService<T extends SuperEntity, R extends JpaRepository<T, Long>, DtoRep, DtoQuer> {
+public abstract class SuperService<T extends SuperEntity, R extends JpaRepository<T, Long>, DtoRep , DtoQuer> {
 
 	@Autowired
 	protected R repository;
@@ -63,7 +64,7 @@ public abstract class SuperService<T extends SuperEntity, R extends JpaRepositor
 	 * @param dtoQuery an instance of a dto Query Object
 	 * @return a dto of the created/modified entity
 	 */
-	public DtoRep addUpdate(DtoQuer dtoQuery) {
+	public Object addUpdate(Object dtoQuery) {
 		return (DtoRep) SuperTransformer
 				.entityToDtoResponse(repository.save((T) SuperTransformer.dtoToEntity(dtoQuery)));
 	}
@@ -79,5 +80,6 @@ public abstract class SuperService<T extends SuperEntity, R extends JpaRepositor
 		else throw new repositoryException("id introuvable");
 		
 	}
+
 
 }

@@ -1,5 +1,6 @@
-package dev.dto;
+package dev.dto.packaging;
 
+import dev.dto.SuperDto;
 import dev.entity.Packaging;
 import dev.enumeration.PackagingEnum;
 import dev.enumeration.UnitEnum;
@@ -9,11 +10,10 @@ import dev.enumeration.UnitEnum;
  * Ignore the product list to avoid redundancies
  * 
  * @author cql-v2
- * @version 0.1
+ * @version 1.0
  */
-public class PackagingDtoResponse {
+public class PackagingDtoResponse extends SuperDto {
 
-	private Long id;
 	private PackagingEnum packaging;
 	private Float weight;
 	private UnitEnum unit;
@@ -31,13 +31,7 @@ public class PackagingDtoResponse {
 		this.unit = packaging.getUnit();
 	}
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
+	
 
 	public PackagingEnum getPackaging() {
 		return packaging;

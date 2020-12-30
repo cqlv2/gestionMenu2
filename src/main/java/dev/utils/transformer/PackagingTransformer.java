@@ -1,7 +1,7 @@
 package dev.utils.transformer;
 
-import dev.dto.PackagingDtoQuery;
-import dev.dto.PackagingDtoResponse;
+import dev.dto.packaging.PackagingDtoQuery;
+import dev.dto.packaging.PackagingDtoResponse;
 import dev.entity.Packaging;
 import dev.entity.Product;
 

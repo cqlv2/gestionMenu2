@@ -7,8 +7,8 @@ import java.util.Optional;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import dev.dto.PackagingDtoQuery;
-import dev.dto.PackagingDtoResponse;
+import dev.dto.packaging.PackagingDtoQuery;
+import dev.dto.packaging.PackagingDtoResponse;
 import dev.entity.Packaging;
 import dev.exceptions.repositoryException;
 import dev.repository.PackagingRepository;

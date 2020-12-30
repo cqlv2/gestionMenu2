@@ -14,15 +14,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import dev.dto.PackagingDtoQuery;
-import dev.dto.PackagingDtoResponse;
+import dev.dto.SuperDto;
+import dev.dto.packaging.PackagingDtoQuery;
+import dev.dto.packaging.PackagingDtoResponse;
 import dev.entity.SuperEntity;
 import dev.exceptions.repositoryException;
 import dev.service.SuperService;
 import dev.spec.ConditionnementFilters;
 
 /**
- * super controller containing the API basic methods
+ * super controller containing the API basic read and delete methods
  * 
  * @author cql-v2
  * @version 1.0
@@ -31,7 +32,7 @@ import dev.spec.ConditionnementFilters;
  */
 @RestController
 @RequestMapping("")
-public abstract class SuperController<T extends SuperEntity, S extends SuperService<T, ? extends JpaRepository<T, Long>, PackagingDtoResponse, PackagingDtoQuery>> {
+public abstract class SuperController<T extends SuperEntity, S extends SuperService<T, ? extends JpaRepository<T, Long>, ? extends SuperDto, ? extends SuperDto>> {
 
 	@Autowired
 	protected S service;
@@ -62,33 +63,12 @@ public abstract class SuperController<T extends SuperEntity, S extends SuperServ
 	}
 
 	/**
-	 * add a new entry to the database
+	 * removes an entry from the database from an id or throws an exception if the
+	 * id does not exist
 	 * 
-	 * @param dtoQuery an instance of a dto Object parser with jackson
-	 * @return a response entity(ok) with 1 value formatted in DTO
-	 */
-	@PostMapping
-	public ResponseEntity<?> add(@RequestBody PackagingDtoQuery dtoQuery) {
-		return ResponseEntity.ok().body(service.addUpdate(dtoQuery));
-
-	}
-
-	/**
-	 * edit an entry to the database
-	 * 
-	 * @param dtoQuery an instance of a dto Object parser with jackson
-	 * @return a response entity(ok) with 1 value formatted in DTO
-	 */
-	@PutMapping
-	public ResponseEntity<?> edit(@RequestBody PackagingDtoQuery dtoQuery) {
-		return ResponseEntity.ok().body(service.addUpdate(dtoQuery));
-	}
-
-	/**
-	 * removes an entry from the database from an id or throws an exception if the id does not exist
 	 * @param id id to remove
-	 * @return a response entity(ok) with 'OK' or a response
-	 *         entity(badRequest) with repositoryException message
+	 * @return a response entity(ok) with 'OK' or a response entity(badRequest) with
+	 *         repositoryException message
 	 */
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> remove(@PathVariable Long id) {
